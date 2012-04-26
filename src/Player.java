@@ -11,6 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Player extends Sprite {
 
 	private Vector2f pn = new Vector2f( 0, 0);
+	private Vector2f v = new Vector2f( 0, 0);
 	private Vector2f pp1 = new Vector2f( 0, 0);
 	private Vector2f pp2 = new Vector2f( 0, 0);
 	private Rectangle rect = new Rectangle( 440, 240, 100, 100);
@@ -24,40 +25,40 @@ public class Player extends Sprite {
 		pn= new Vector2f(nX+20,nY+20);
 	}
 	
-	public void collisionPossibility(){
-		boolean col=false;
-		if(rect.contains(pn.x + w, pn.y + h)){
-			//! Horizontal collision
-			if(rect.contains(p.x + w, pn.y + h)){
-				col=true;
-				pp1.y=rect.getY()-h;
-				pp1.x = pn.x + (p.x-pn.x)/2 ;
-			}
-			else{
-				pp1.y=pn.y;
-			}
-			//! Vertical collision
-			if(rect.contains(pn.x + w, p.y + h)){
-				col=true;
-				//pp1.x=p.x;
-				pp1.x = rect.getX() - w;
-				pp1.y = pn.y + (p.y-pn.y)/2 ;
-			}
-			else{
-				if(!col)pp1.x=pn.x;
-			}
+	public Vector2f bfFun(Vector2f pr){
+		if(rect.contains(pr.x + w, pr.y + h)){
+			return bfFun(new Vector2f( pr.x-(pr.x-p.x)*0.01f, pr.y-(pr.y-p.y)*0.01f));
 		}
-		else{
-			pp1.x=pn.x;
-			pp1.y=pn.y;
+		else return pr;
+	}
+	
+	public void doWorldCollision(){
+		pp2.x=pn.x;
+		pp2.y=pn.y;
+		
+		//! Top Left
+		while(rect.contains( pp2.x, pp2.y) && !rect.contains( p.x, p.y)){
+			pp2.x=pp2.x-(pp2.x-p.x)*0.01f;
+			pp2.y=pp2.y-(pp2.y-p.y)*0.01f;
 		}
 		
+		//! Top Right
+		while(rect.contains( pp2.x + w, pp2.y) && !rect.contains( p.x + w, p.y)){
+			pp2.x=pp2.x-(pp2.x-p.x)*0.01f;
+			pp2.y=pp2.y-(pp2.y-p.y)*0.01f;
+		}
 		
-		if(!col) pp1 = new Vector2f( 0, 0);
+		//! Bottom Left
+		while(rect.contains( pp2.x, pp2.y + h) && !rect.contains( p.x, p.y + h)){
+			pp2.x=pp2.x-(pp2.x-p.x)*0.01f;
+			pp2.y=pp2.y-(pp2.y-p.y)*0.01f;
+		}
 		
-
-		if(rect.contains(pp1.x + w, pp1.y + h))System.out.println("collision");
-		else System.out.println("non-collision");
+		//! Bottom Right
+		while(rect.contains( pp2.x + w, pp2.y + h) && !rect.contains( p.x + w, p.y + h)){
+			pp2.x=pp2.x-(pp2.x-p.x)*0.01f;
+			pp2.y=pp2.y-(pp2.y-p.y)*0.01f;
+		}
 	}
 
     public void update(GameContainer gc, StateBasedGame sb, int delta){
@@ -87,7 +88,9 @@ public class Player extends Sprite {
 			 pn.x+=0.1*delta;
 		}
     	
-    	collisionPossibility();
+    	v.y-=0.01;
+    	
+    	doWorldCollision();
 		 
     }
     public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
@@ -98,6 +101,8 @@ public class Player extends Sprite {
     	aniSprite.draw( pn.x, pn.y);
     	aniSprite.setCurrentFrame(2);
     	aniSprite.draw( pp1.x, pp1.y);
+    	aniSprite.setCurrentFrame(3);
+    	aniSprite.draw( pp2.x, pp2.y);
     	aniSprite.setCurrentFrame(0);
     	
     }
