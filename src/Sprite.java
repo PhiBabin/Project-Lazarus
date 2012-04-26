@@ -8,10 +8,12 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Sprite {
 	/** Animation of the sprite  */
-	private Animation aniSprite;
+	protected Animation aniSprite;
 	
 	/** Position of the sprite  */
-	private Vector2f p;
+	protected Vector2f p;
+	
+	protected int h, w;
 	
 	/**
 	 * 
@@ -19,14 +21,20 @@ public class Sprite {
 	 */
 	public Sprite(Animation pSprite){
 		aniSprite=pSprite;
-		p= new Vector2f(0,0);
+		h = aniSprite.getHeight();
+		w = aniSprite.getWidth();
+		
+		p = new Vector2f(0,0);
 	}
 	/**
 	 * 
-	 * @param pTexture
+	 * @param pSprite , nX, nY
 	 */
 	public Sprite(Animation pSprite, float nX, float nY){
 		aniSprite=pSprite;
+		h = aniSprite.getHeight();
+		w = aniSprite.getWidth();
+		
 		p= new Vector2f(nX,nY);
 	}
 	

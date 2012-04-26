@@ -29,7 +29,7 @@ public class BasicMoveComp extends Component {
 		 }
 		 
 		owner.move(v.x * delta/10, v.y * delta/10);
-		System.out.println("Position : " + owner.getPosition().x+ " " + owner.getPosition().y);
+		//System.out.println("Position : " + owner.getPosition().x+ " " + owner.getPosition().y);
 	}
 
 }

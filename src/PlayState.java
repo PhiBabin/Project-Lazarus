@@ -22,7 +22,7 @@ public class PlayState extends BasicGameState {
 	
 	private ImgManager imageMan;
 	
-	private Entity player;
+	private Player player;
 	
 	private enum STATES {
         START_GAME_STATE, NEW_PIECE_STATE, MOVING_PIECE_STATE, LINE_DESTRUCTION_STATE,
@@ -42,16 +42,17 @@ public class PlayState extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
     	imageMan = new ImgManager();
     	 mainMap = new TiledMap("map/level.tmx");
-    	 
-    	 player= new Entity("Player");
-    	 //player.addComponent(new BasicMoveComp( "PlayerMovement"));
-    	 player.addComponent(new WorldCollisionComp( "PlayerCollision"));
-    	 player.addComponent(new BasicRenderComp( "PlayerRendering" , imageMan.player));
+//    	 
+//    	 player= new Entity("Player");
+//    	 //player.addComponent(new BasicMoveComp( "PlayerMovement"));
+//    	 player.addComponent(new WorldCollisionComp( "PlayerCollision"));
+//    	 player.addComponent(new BasicRenderComp( "PlayerRendering" , imageMan.player));
+    	 player = new Player( imageMan.player, 400, 200);
     }
  
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gc1) throws SlickException {
 		mainMap.render(0,0);
-		System.out.println(mainMap.getTileProperty(mainMap.getTileId( 2, 5, 0), "kill", "0"));
+		//System.out.println(mainMap.getTileProperty(mainMap.getTileId( 2, 5, 0), "kill", "0"));
 		gc1.drawString("Hello, Slick world!", 0, 200); 
 		
 		player.render(gc, sbg, gc1);
