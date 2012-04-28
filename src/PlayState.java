@@ -47,7 +47,7 @@ public class PlayState extends BasicGameState {
 //    	 //player.addComponent(new BasicMoveComp( "PlayerMovement"));
 //    	 player.addComponent(new WorldCollisionComp( "PlayerCollision"));
 //    	 player.addComponent(new BasicRenderComp( "PlayerRendering" , imageMan.player));
-    	 player = new Player( imageMan.player, 400, 200);
+    	 player = new Player( imageMan.player, 400, 100);
     }
  
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gc1) throws SlickException {
