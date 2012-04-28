@@ -9,123 +9,117 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
+/**
+ * Player entity
+ * This object has the ability to interacte with the map
+ * It's controlled by keyboard input 
+ * 
+ * @author Philippe Babin
+ *
+ */
 public class Player extends Sprite {
+	/**
+	 * TiledSet of the mainMap
+	 */
 	private TiledMap world;
-
-	private Vector2f pn = new Vector2f( 0, 0);
-	private Vector2f v = new Vector2f( 0, 0);
-	private Rectangle rect = new Rectangle( 400, 240, 100, 100);
 	
+	/**
+	 * Velocity of the Player
+	 */
+	private Vector2f v = new Vector2f( 0, 0);
+	
+	/**
+	 * New position of the Player
+	 */
+	private Vector2f pn = new Vector2f( 0, 0);
+	
+	/**
+	 * Constructor of the Player
+	 * @param pSprite Animation
+	 * @param world	mainMap tileset
+	 */
 	public Player(Animation pSprite, TiledMap world) {
 		super(pSprite);
 		this.world = world; 
 	}
 	
+	/**
+	 * Constructor of the Player
+	 * @param pSprite Animation
+	 * @param world	mainMap tileset
+	 * @param nX Player X default position
+	 * @param nY Player Y default position
+	 */
 	public Player(Animation pSprite, TiledMap world, float nX, float nY) {
 		super(pSprite, nX, nY);
 		this.world = world; 
 	}
 	
-	public Vector2f bfFun(Vector2f pr){
-		if(rect.contains(pr.x + w, pr.y + h)){
-			return bfFun(new Vector2f( pr.x-(pr.x-p.x)*0.01f, pr.y-(pr.y-p.y)*0.01f));
-		}
-		else return pr;
+	/**
+	 * Return true if the global coordinate contain a solid tile block
+ 	 * @param x Coordinate X
+	 * @param y Coordinate Y
+	 * @return isSolid boolean 
+	 */
+	public boolean isSolidBlock(float x, float y){
+		int tX = (int)(x)/world.getTileWidth();
+		int tY = (int)(y)/world.getTileHeight();
+		System.out.println(tX);
+		return world.getTileProperty( world.getTileId( tX, tY, 0), "solid", "0")=="0";
 	}
 
-	public void doWorldCollision2(){
+	/**
+	 * Found the optimal new position for the Player
+	 */
+	public void doWorldCollision(){
 		boolean lt=false;
 		boolean lb=false;
 		boolean rt=false;
 		boolean rb=false;
+		
+		double ptLength = 0, optimalLength = 0;
+		 
+		/** Contain the optimal new movable position for the Player */
 		Vector2f optimal= new Vector2f( p.x, p.y);
+		
+		/** Contain all the tries for a new movable position */
 		Vector2f pt= new Vector2f( 0, 0);
 		
+		/** This loop tries all the possible position */
 		for(int i=0; i<20; i++){
 			for(int j=0; j<20; j++){
+				
 				pt.x=pn.x-(pn.x-p.x)*(float)Math.pow( 0.7, i);
 				pt.y=pn.y-(pn.y-p.y)*(float)Math.pow( 0.7, j);
-				lt=rect.contains( pt.x, pt.y);
-				lb=rect.contains( pt.x, pt.y + h);
-				rt=rect.contains( pt.x + w, pt.y);
-				rb=rect.contains( pt.x + w, pt.y + h);
-				if(!lt && !lb && !rt && !rb && 
-						Math.sqrt((pt.x-p.x)*(pt.x-p.x)+(pt.y-p.y)*(pt.y-p.y))>
-						Math.sqrt((optimal.x-p.x)*(optimal.x-p.x)+(optimal.y-p.y)*(optimal.y-p.y))){
+				
+				/** We check for map collision */
+				lt = isSolidBlock( pt.x, pt.y);
+				lb = isSolidBlock( pt.x, pt.y + h);
+				rt = isSolidBlock( pt.x + w, pt.y);
+				rb = isSolidBlock( pt.x + w, pt.y + h);
+				
+				/** We check the pt length compare to the current Player's position */
+				ptLength = Math.sqrt((pt.x-p.x)*(pt.x-p.x)+(pt.y-p.y)*(pt.y-p.y));
+				
+				/** The new optimal position needs to have no collision and be longer than the last optimal position */
+				if(!lt && !lb && !rt && !rb && ptLength > optimalLength){
 					optimal.x=pt.x;
 					optimal.y=pt.y;
+					optimalLength = ptLength;
 				}
 			}
 		}
+		
+		/** If they was a vertical collision, set vertical velocity to zero */
 		if(optimal.y<=pn.y-1){
 			v.y=0;
 		}
 		
-	//	pp2.x=optimal.x;
-	//	pp2.y=optimal.y;
+		/** The optimal new position becomes the current position */
 		p.x=optimal.x;
 		p.y=optimal.y;
 	}
-	public void doWorldCollision(){
-		boolean lt=false, lb=false, rt=false, rb=false;
-		
-		pp2.x=pn.x;
-		pp2.y=pn.y;
-		int i=0;
-		//! Top Left
-		while(rect.contains( pp2.x, pp2.y) && !rect.contains( p.x, p.y) && i<20){
-			pp2.x=pp2.x-(pp2.x-p.x)*0.01f;
-			pp2.y=pp2.y-(pp2.y-p.y)*0.01f;
-			i++;
-			lt=true;
-		}
-		if(i>=20){
-			pp2.x=p.x;
-			pp2.y=p.y;
-		}
-		
-		//! Top Right
-		i=0;
-		while(rect.contains( pp2.x + w, pp2.y) && !rect.contains( p.x + w, p.y) && i<20){
-			pp2.x=pp2.x-(pp2.x-p.x)*0.01f;
-			pp2.y=pp2.y-(pp2.y-p.y)*0.01f;
-			i++;
-			rt=true;
-		}
-		if(i>=20){
-			pp2.x=p.x;
-			pp2.y=p.y;
-		}
-		
-		//! Bottom Left
-		i=0;
-		while(rect.contains( pp2.x, pp2.y + h) && !rect.contains( p.x, p.y + h) && i<20){
-			pp2.x=pp2.x-(pp2.x-p.x)*0.01f;
-			pp2.y=pp2.y-(pp2.y-p.y)*0.01f;
-			i++;
-			lb=true;
-		}
-		if(i>=20){
-			pp2.x=p.x;
-			pp2.y=p.y;
-		}
-		
-		//! Bottom Right
-		i=0;
-		while(rect.contains( pp2.x + w, pp2.y + h) && !rect.contains( p.x + w, p.y + h) && i<20){
-			pp2.x=pp2.x-(pp2.x-p.x)*0.01f;
-			pp2.y=pp2.y-(pp2.y-p.y)*0.01f;
-			i++;
-			rb=true;
-		}
-		if(i>=20){
-			pp2.x=p.x;
-			pp2.y=p.y;
-		}
-		
-		//p.x=pp2.x;
-		//p.y=pp2.y;
-	}
+
 
     public void update(GameContainer gc, StateBasedGame sb, int delta){
     	Input input = gc.getInput();
@@ -158,17 +152,11 @@ public class Player extends Sprite {
     	
     	pn.x=p.x+v.x*delta;
     	pn.y=p.y+v.y*delta;
-    //	p.x=p.x+v.x*delta;
-    //	p.y=p.y+v.y*delta;
     	
-    //	pn.x=p.x-10;
-    //	pn.y=p.y-10;
-    	
-    	doWorldCollision2();
+    	doWorldCollision();
 	//	System.out.println("p: " + p.x + " " + p.y + " pn: " + pn.x + " " + pn.y);
     }
     public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
-    	gr.draw(rect);
     	
     	aniSprite.draw( p.x, p.y);
     	aniSprite.setCurrentFrame(1);

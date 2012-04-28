@@ -47,15 +47,15 @@ public class PlayState extends BasicGameState {
 //    	 //player.addComponent(new BasicMoveComp( "PlayerMovement"));
 //    	 player.addComponent(new WorldCollisionComp( "PlayerCollision"));
 //    	 player.addComponent(new BasicRenderComp( "PlayerRendering" , imageMan.player));
-    	 player = new Player( imageMan.player, 400, 100);
+    	 player = new Player( imageMan.player, mainMap, 400, 100);
     }
  
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gc1) throws SlickException {
-		mainMap.render(0,0);
+		mainMap.render( 0, 0);
 		//System.out.println(mainMap.getTileProperty(mainMap.getTileId( 2, 5, 0), "kill", "0"));
-		gc1.drawString("Hello, Slick world!", 0, 200); 
+		gc1.drawString( "Hello, Slick world!", 0, 200); 
 		
-		player.render(gc, sbg, gc1);
+		player.render( gc, sbg, gc1);
  
     }
  

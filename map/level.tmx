@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="10" height="10" tilewidth="10" tileheight="10">
+<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="10" tileheight="10">
  <tileset firstgid="1" name="tileset" tilewidth="10" tileheight="10">
   <image source="../img/tileset.png" width="100" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="solid" value="0"/>
+   </properties>
+  </tile>
   <tile id="4">
    <properties>
     <property name="kill" value="1"/>
    </properties>
   </tile>
+  <tile id="9">
+   <properties>
+    <property name="solid" value="0"/>
+   </properties>
+  </tile>
  </tileset>
- <layer name="Calque 1" width="10" height="10">
+ <layer name="Calque 1" width="100" height="100">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAA2NgGF6AFYjZsGB2qLwsFOsCsR4SlgBiSSAWRFKLC8D06lPZ7SAAAIDw+emQAQAA
+   H4sIAAAAAAAAA+3bsU6EQBAGYK5QS3MdmlgZS8/3fzshORJyWYnAwM2xX/H1bH4YZnbh1DTNCQA4hKfOc8FLgmurycfVd+cy0nbeOmc5pTFk1I7yeb/6K6f/kGWMz1Eea3wlWMsRyCOXvn61I5em/M6RRx5DZlO5yCNXLvK4n9I7Rx73czvX9H4SXNdcw7ysV89huK8e8V6awz5NLlvv08g7LqPSnDOnXvRZvDblnvssk11NZaHPy5eFPPZT6rFLjt4rUSezWS61zGYwZeksV3s922L9a2a52utZ9PrNcrHW7BmZ5eKt2SM0y+2b0do9wmxq7x2yqb13gKNRY3OJqLHOXbc357nxP8T21j43R+2hAcgpqlfTx8dkEfWNXOa9kkeYD2o6V4meD6Lzda6yfD7Y4rtb5yrL1FRTslNTcomuKfrRXDL3owAAAAAAAAAAAAAAAAAAAAAAAAC3fgFoxchwQJwAAA==
   </data>
  </layer>
 </map>
