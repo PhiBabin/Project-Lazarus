@@ -64,33 +64,45 @@ public class Player extends Sprite {
 	public boolean isSolidBlock(float x, float y){
 		int tX = (int)(x)/world.getTileWidth();
 		int tY = (int)(y)/world.getTileHeight();
-		System.out.println(tX);
-		return world.getTileProperty( world.getTileId( tX, tY, 0), "solid", "0")=="0";
+		
+		if(tX>0 && tX<world.getWidth() && tY>0 && tY<world.getHeight())
+			return world.getTileProperty( world.getTileId( tX, tY, 0), "solid", "0")=="0";
+		else 
+			return false;
 	}
 
 	/**
 	 * Found the optimal new position for the Player
 	 */
 	public void doWorldCollision(){
-		boolean lt=false;
-		boolean lb=false;
-		boolean rt=false;
-		boolean rb=false;
+		boolean lt = isSolidBlock( pn.x, pn.y);
+		boolean lb = isSolidBlock( pn.x, pn.y + h);
+		boolean rt = isSolidBlock( pn.x + w, pn.y);
+		boolean rb = isSolidBlock( pn.x + w, pn.y + h);
+		boolean lc = isSolidBlock( pn.x, pn.y + h/2);
+		boolean rc = isSolidBlock( pn.x + w, pn.y + h/2);
 		
 		double ptLength = 0, optimalLength = 0;
 		 
 		/** Contain the optimal new movable position for the Player */
-		Vector2f optimal= new Vector2f( p.x, p.y);
+		Vector2f optimal = new Vector2f( p.x, p.y);
 		
 		/** Contain all the tries for a new movable position */
-		Vector2f pt= new Vector2f( 0, 0);
+		Vector2f pt = new Vector2f( 0, 0);
+		
+		/** We check for collision */
+		if(!lt && !lb && !rt && !rb && !lc && !rc){
+			p.x=pn.x;
+			p.y=pn.y;
+			return;
+		}
 		
 		/** This loop tries all the possible position */
 		for(int i=0; i<20; i++){
 			for(int j=0; j<20; j++){
 				
-				pt.x=pn.x-(pn.x-p.x)*(float)Math.pow( 0.7, i);
-				pt.y=pn.y-(pn.y-p.y)*(float)Math.pow( 0.7, j);
+				pt.x = pn.x-(pn.x-p.x)*(float)Math.pow( 0.8, i);
+				pt.y = pn.y-(pn.y-p.y)*(float)Math.pow( 0.8, j);
 				
 				/** We check for map collision */
 				lt = isSolidBlock( pt.x, pt.y);
@@ -98,20 +110,29 @@ public class Player extends Sprite {
 				rt = isSolidBlock( pt.x + w, pt.y);
 				rb = isSolidBlock( pt.x + w, pt.y + h);
 				
-				/** We check the pt length compare to the current Player's position */
-				ptLength = Math.sqrt((pt.x-p.x)*(pt.x-p.x)+(pt.y-p.y)*(pt.y-p.y));
 				
 				/** The new optimal position needs to have no collision and be longer than the last optimal position */
-				if(!lt && !lb && !rt && !rb && ptLength > optimalLength){
-					optimal.x=pt.x;
-					optimal.y=pt.y;
-					optimalLength = ptLength;
+				if(!lt && !lb && !rt && !rb){
+					
+					/** We check the pt length compare to the current Player's position */
+					ptLength = Math.sqrt((pt.x-p.x)*(pt.x-p.x)+(pt.y-p.y)*(pt.y-p.y));
+					
+					if(ptLength > optimalLength){
+						lc = isSolidBlock( pt.x, pt.y + h/2);
+						rc = isSolidBlock( pt.x + w, pt.y + h/2);
+						
+						if(!lc && !rc){
+							optimal.x = pt.x;
+							optimal.y = pt.y;
+							optimalLength = ptLength;
+						}
+					}
 				}
 			}
 		}
 		
 		/** If they was a vertical collision, set vertical velocity to zero */
-		if(optimal.y<=pn.y-1){
+		if(optimal.y<=pn.y-3){
 			v.y=0;
 		}
 		
@@ -135,7 +156,7 @@ public class Player extends Sprite {
      		v.y=0.1f;
 		 }
     	if((l && r) || ( !l && !r)){
-    		v.x=0;
+    		v.x*=0.6;
     	}
     	if(l && !r){
     		v.x=-0.1f;
@@ -157,15 +178,7 @@ public class Player extends Sprite {
 	//	System.out.println("p: " + p.x + " " + p.y + " pn: " + pn.x + " " + pn.y);
     }
     public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
-    	
-    	aniSprite.draw( p.x, p.y);
-    	aniSprite.setCurrentFrame(1);
-    	//aniSprite.draw( pn.x, pn.y);
-    	aniSprite.setCurrentFrame(2);
-    	//aniSprite.draw( pp1.x, pp1.y);
-    	aniSprite.setCurrentFrame(3);
-    	//aniSprite.draw( pp2.x, pp2.y);
-    	aniSprite.setCurrentFrame(0);
+    	gr.drawAnimation( aniSprite, p.x, p.y);
     	
     }
 }
