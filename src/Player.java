@@ -1,3 +1,13 @@
+/**
+Copyright (c) 2012 Babin Philippe
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+    Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+    Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
@@ -18,10 +28,16 @@ import org.newdawn.slick.tiled.TiledMap;
  *
  */
 public class Player extends Sprite {
+	
+	/**
+	 * TiledSet of the world
+	 */
+	private TiledMap world;
+	
 	/**
 	 * TiledSet of the mainMap
 	 */
-	private TiledMap world;
+	private Animation arms;
 	
 	/**
 	 * Velocity of the Player
@@ -32,27 +48,36 @@ public class Player extends Sprite {
 	 * New position of the Player
 	 */
 	private Vector2f pn = new Vector2f( 0, 0);
+
+	/**
+	 * True if can jump
+	 */
+	private boolean jumpLock = false;
 	
 	/**
 	 * Constructor of the Player
 	 * @param pSprite Animation
+	 * @param arms Animation
 	 * @param world	mainMap tileset
 	 */
-	public Player(Animation pSprite, TiledMap world) {
-		super(pSprite);
+	public Player(Animation pSprite, Animation arms, TiledMap world) {
+		super( pSprite);
 		this.world = world; 
+		this.arms = arms;
 	}
 	
 	/**
 	 * Constructor of the Player
 	 * @param pSprite Animation
+	 * @param arms Animation
 	 * @param world	mainMap tileset
 	 * @param nX Player X default position
 	 * @param nY Player Y default position
 	 */
-	public Player(Animation pSprite, TiledMap world, float nX, float nY) {
-		super(pSprite, nX, nY);
+	public Player(Animation pSprite, Animation arms, TiledMap world, float nX, float nY) {
+		super( pSprite, nX, nY);
 		this.world = world; 
+		this.arms = arms;
 	}
 	
 	/**
@@ -62,11 +87,11 @@ public class Player extends Sprite {
 	 * @return isSolid boolean 
 	 */
 	public boolean isSolidBlock(float x, float y){
-		int tX = (int)(x)/world.getTileWidth();
-		int tY = (int)(y)/world.getTileHeight();
+		int tX = (int)(x) / world.getTileWidth();
+		int tY = (int)(y) / world.getTileHeight();
 		
-		if(tX>0 && tX<world.getWidth() && tY>0 && tY<world.getHeight())
-			return world.getTileProperty( world.getTileId( tX, tY, 0), "solid", "0")=="0";
+		if(tX >= 0 && tX < world.getWidth() && tY >= 0 && tY < world.getHeight())
+			return world.getTileProperty( world.getTileId( tX, tY, 0), "solid", "0") == "0";
 		else 
 			return false;
 	}
@@ -91,9 +116,9 @@ public class Player extends Sprite {
 		Vector2f pt = new Vector2f( 0, 0);
 		
 		/** We check for collision */
-		if(!lt && !lb && !rt && !rb && !lc && !rc){
-			p.x=pn.x;
-			p.y=pn.y;
+		if( !lt && !lb && !rt && !rb && !lc && !rc){
+			p.x = pn.x;
+			p.y = pn.y;
 			return;
 		}
 		
@@ -101,8 +126,8 @@ public class Player extends Sprite {
 		for(int i=0; i<20; i++){
 			for(int j=0; j<20; j++){
 				
-				pt.x = pn.x-(pn.x-p.x)*(float)Math.pow( 0.8, i);
-				pt.y = pn.y-(pn.y-p.y)*(float)Math.pow( 0.8, j);
+				pt.x = pn.x-(pn.x - p.x) * (float)Math.pow( 0.8, i);
+				pt.y = pn.y-(pn.y - p.y) * (float)Math.pow( 0.8, j);
 				
 				/** We check for map collision */
 				lt = isSolidBlock( pt.x, pt.y);
@@ -115,7 +140,7 @@ public class Player extends Sprite {
 				if(!lt && !lb && !rt && !rb){
 					
 					/** We check the pt length compare to the current Player's position */
-					ptLength = Math.sqrt((pt.x-p.x)*(pt.x-p.x)+(pt.y-p.y)*(pt.y-p.y));
+					ptLength = Math.sqrt((pt.x - p.x)*(pt.x - p.x)+(pt.y - p.y)*(pt.y - p.y));
 					
 					if(ptLength > optimalLength){
 						lc = isSolidBlock( pt.x, pt.y + h/2);
@@ -132,53 +157,72 @@ public class Player extends Sprite {
 		}
 		
 		/** If they was a vertical collision, set vertical velocity to zero */
-		if(optimal.y<=pn.y-3){
-			v.y=0;
+		if(optimal.y <= pn.y - 3){
+			v.y = 0;
+			jumpLock = true;
 		}
 		
 		/** The optimal new position becomes the current position */
-		p.x=optimal.x;
-		p.y=optimal.y;
+		p.x = optimal.x;
+		p.y = optimal.y;
 	}
 
 
-    public void update(GameContainer gc, StateBasedGame sb, int delta){
+    public void update( GameContainer gc, StateBasedGame sb, int delta){
     	Input input = gc.getInput();
-    	boolean u =input.isKeyDown(Input.KEY_W);
-    	boolean d =input.isKeyDown(Input.KEY_S);
-    	boolean l =input.isKeyDown(Input.KEY_A);
-    	boolean r =input.isKeyDown(Input.KEY_D);
+    	boolean l = input.isKeyDown( Input.KEY_LEFT);
+    	boolean r = input.isKeyDown( Input.KEY_RIGHT);
     	
-    	if(u && !d){
-    		v.y=-0.1f;
+    	if( (l && r) || ( !l && !r)){
+    		v.x *= 0.6;
     	}
-    	if(!u && d){
-     		v.y=0.1f;
-		 }
-    	if((l && r) || ( !l && !r)){
-    		v.x*=0.6;
+    	if( l && !r){
+    		v.x = -0.1f;
     	}
-    	if(l && !r){
-    		v.x=-0.1f;
-    	}
-    	if(!l && r){
-     		v.x=0.1f;
-		}
-
-    	if(input.isKeyDown(Input.KEY_SPACE)){
-     		v = new Vector2f( 0, 0);
+    	if( !l && r){
+     		v.x = 0.1f;
 		}
     	
-    	v.y+=0.001*delta;
+    	if( input.isKeyDown( Input.KEY_SPACE)){
+     		setPosition( 500f, 10f);
+		}
     	
-    	pn.x=p.x+v.x*delta;
-    	pn.y=p.y+v.y*delta;
+    	if( input.isKeyPressed( Input.KEY_UP) && jumpLock){
+    		v.y -= CONST.JUMP_FORCE;
+    		jumpLock = false;
+    	}
+    	
+    	v.y += CONST.PLAYER_MASS * CONST.G_FORCE * delta;
+    	
+    	if( v.y > CONST.MAX_VELOCITY)
+    		v.y = (float) CONST.MAX_VELOCITY;
+    	
+    	pn.x = p.x + v.x * delta;
+    	pn.y = p.y + v.y * delta;
     	
     	doWorldCollision();
 	//	System.out.println("p: " + p.x + " " + p.y + " pn: " + pn.x + " " + pn.y);
     }
-    public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
+
+	public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
     	gr.drawAnimation( aniSprite, p.x, p.y);
+    	gr.drawAnimation( arms, p.x + 2, p.y - 3);
     	
     }
+	
+    public Vector2f getV() {
+		return v;
+	}
+
+	public boolean isJumpLock() {
+		return jumpLock;
+	}
+
+	public void setV(Vector2f v) {
+		this.v = v;
+	}
+
+	public void setJumpLock(boolean jumpLock) {
+		this.jumpLock = jumpLock;
+	}
 }

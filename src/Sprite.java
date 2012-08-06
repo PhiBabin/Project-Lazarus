@@ -1,3 +1,10 @@
+/**
+ * 
+ * @author Philippe Babin
+ *
+ *	This class works as the gameplay logic manager.
+ *	The current drawable entity is render.
+ */
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
@@ -66,23 +73,24 @@ public class Sprite {
     public void update(GameContainer gc, StateBasedGame sb, int delta){
     	
     }
-
+    
     /**
-     * Move simple Sprite to new position
-     * @param pX float
-     * @param pY float
+     * Move the Sprite to a new position
+     * @param pX 
+     * @param pY 
      */
-	public void move(float pX, float pY){
-		p = new Vector2f( p.x+pX,  p.y+pY);
+	public void move( int pX, int pY){
+		p = new Vector2f( p.x + pX,  p.y + pY);
 	}
 	
     /**
      * Move simple Sprite to new position
-     * @param pM Vector2f 
+     * @param pM Translation vector
      */
-	public void move(Vector2f pM){
-		p = new Vector2f( p.x+pM.x,  p.y+pM.y);
+	public void move( Vector2f pM){
+		p = new Vector2f( p.x + pM.x,  p.y + pM.y);
 	}
+	
 	
 	/**
 	 * Return Sprite position
@@ -91,6 +99,23 @@ public class Sprite {
 	public Vector2f getPosition() {
 		return p;
 	}
+	
+	/**
+	 * Return Sprite X position
+	 * @return position float
+	 */
+	public float getX() {
+		return p.x;
+	}
+	
+	/**
+	 * Return Sprite Y position
+	 * @return position float
+	 */
+	public float getY() {
+		return p.y;
+	}
+
 
 	/**
 	 * Return Sprite scale
@@ -101,7 +126,7 @@ public class Sprite {
     }
 
 	/**
-	 * Return Sprite x position
+	 * Set Sprite x position
 	 * @return X position  float
 	 */
 	public void setX(float x) {
@@ -109,10 +134,27 @@ public class Sprite {
 	}
 
 	/**
-	 * Return Sprite y position
+	 * Set Sprite y position
 	 * @return Y position  float
 	 */
 	public void setY(float y) {
+		p.y = y;
+	}
+	
+	/**
+	 * Set Sprite position
+	 * @return Y position  float
+	 */
+	public void setPosition( Vector2f p) {
+		this.p = p;
+	}	
+	
+	/**
+	 * Set Sprite position
+	 * @return Y position  float
+	 */
+	public void setPosition( float x, float y) {
+		p.x = x;
 		p.y = y;
 	}
 	

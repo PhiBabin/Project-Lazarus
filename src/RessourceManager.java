@@ -9,51 +9,41 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
-import java.io.IOException;
-
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
+import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-
-public class ProjectLazarus extends StateBasedGame {
+public class RessourceManager {
+	public Animation player = null, tileset = null, arms = null;
+	public SpriteSheet imgPlayer = null, tilesetImg = null, imgArms = null;
 	
-	/** Name of the game */
-	private static String GAME_NAME = "Test Project Lazarus";
-	
-	/** Version of the game */
-	private static String GAME_VERSION = "v0.01";
-	
-    public static final int PLAYSTATE = 1;
-	
-	public ProjectLazarus(){
-		super("ProjectLazarus"); 
-		
-        this.addState( new PlayState(PLAYSTATE));
-        this.enterState( PLAYSTATE);
+	public RessourceManager(){
+		loadImage();
 	}
 	
-    public void initStatesList(GameContainer gameContainer) throws SlickException {
-       //this.getState(PLAYSTATE).init(gameContainer, this);
-    }
-	 
-	public static void main(String[] args) {
+	public void loadImage(){
 		try {
-			CONST.APPLET = false;
+			if( CONST.APPLET){
+				imgPlayer = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/player.png"), "img/player.png", false), 9, 21);
+				imgArms = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm.png"), "img/arm.png", false), 20, 20);
+				tilesetImg = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/tileset.png"), "img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
+			}
+			else {
+				imgPlayer = new SpriteSheet( new Image("img/player.png", false), 9, 21);
+				imgArms = new SpriteSheet( new Image("img/arm.png", false), 20, 20);
+				tilesetImg = new SpriteSheet( new Image("img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
+			}
+			player = new Animation( imgPlayer, 100000);
+			arms = new Animation( imgArms, 100000);
 			
-			AppGameContainer app = new AppGameContainer( new ProjectLazarus());
-			app.setDisplayMode( CONST.SCREEN_WIDTH, CONST.SCREEN_HEIGHT,false); 
-			app.setVSync( true); 
-			app.setShowFPS( true);
-			
-			app.setTitle( GAME_NAME + " " + GAME_VERSION);
-			
-			app.start();
 		} catch (SlickException e) {
-			e.printStackTrace(); 
+			e.printStackTrace();
 		}
 	}
 	
