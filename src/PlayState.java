@@ -16,13 +16,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.particles.Particle;
-import org.newdawn.slick.particles.ParticleEmitter;
-import org.newdawn.slick.particles.ParticleSystem;
-import org.newdawn.slick.particles.effects.FireEmitter;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.tiled.TiledMap;
 
 /**
@@ -44,6 +39,8 @@ public class PlayState extends BasicGameState {
 	private Vector2f pCursor = new Vector2f( 0, 0);
 	private Vector2f cam = new Vector2f( 0, 0);
 	
+	private boolean debugAnti = true;
+	
 	int stateID=-1;
 	
 	/**
@@ -63,12 +60,16 @@ public class PlayState extends BasicGameState {
     }
  
     public void render( GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
+    	gr.setAntiAlias( debugAnti);
+    		
 		mainMap.render( 0, 0);
 		player.render( gc, sbg, gr);
 		
 		gr.drawString( player.getV().y + "", 5.f, 50.f);
-		gr.drawString( "Angle - " + Math.atan( ( pCursor.y - player.getY()) / ( pCursor.x - player.getX())), 5.f, 65.f);
-		gr.drawString( "JUMP - " + player.isJumpLock(), 5.f, 90.f);
+		gr.drawString( "Angle - " + Math.atan( ( pCursor.y - player.getY()) / ( pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2))* 180 / Math.PI, 5.f, 65.f);
+		gr.drawString( "Triangle - ( " + (pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2) + "," + (pCursor.y - player.getY()) + ")", 5.f, 90.f);
+		gr.drawString( "JUMP - " + player.isJumpLock(), 5.f, 105.f);
+		gr.drawString( "Anti - " + debugAnti, 5.f, 120.f);
  
     }
  
@@ -79,6 +80,12 @@ public class PlayState extends BasicGameState {
 
     	pCursor.x = input.getMouseX() + cam.x;
     	pCursor.y = input.getMouseY() + cam.y;
+    	
+    	if( !debugAnti && input.isKeyPressed( Input.KEY_G) )
+    		debugAnti = true;
+    	else if( debugAnti && input.isKeyPressed( Input.KEY_G))
+    		debugAnti = false;
+    	
     }
     
 	@Override

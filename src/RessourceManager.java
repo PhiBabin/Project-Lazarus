@@ -20,8 +20,8 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class RessourceManager {
-	public Animation player = null, tileset = null, arms = null;
-	public SpriteSheet imgPlayer = null, tilesetImg = null, imgArms = null;
+	public Animation player = null, tileset = null, arms = null, bullet = null;
+	public SpriteSheet imgPlayer = null, tilesetImg = null, imgArms = null, imgBullet = null;
 	
 	public RessourceManager(){
 		loadImage();
@@ -31,16 +31,20 @@ public class RessourceManager {
 		try {
 			if( CONST.APPLET){
 				imgPlayer = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/player.png"), "img/player.png", false), 9, 21);
-				imgArms = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm.png"), "img/arm.png", false), 20, 20);
+				imgArms = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm.png"), "img/arm.png", false), 12, 8);
+				imgBullet = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/bullet.png"), "img/bullet.png", false), 5, 5);
 				tilesetImg = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/tileset.png"), "img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
 			}
 			else {
 				imgPlayer = new SpriteSheet( new Image("img/player.png", false), 9, 21);
-				imgArms = new SpriteSheet( new Image("img/arm.png", false), 20, 20);
+				imgArms = new SpriteSheet( new Image("img/arm.png", false), 12, 8);
 				tilesetImg = new SpriteSheet( new Image("img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
 			}
 			player = new Animation( imgPlayer, 100000);
-			arms = new Animation( imgArms, 100000);
+			arms = new Animation( imgArms, 100);
+			arms.stop();
+			bullet = new Animation( imgBullet, 100);
+			bullet.stop();
 			
 		} catch (SlickException e) {
 			e.printStackTrace();

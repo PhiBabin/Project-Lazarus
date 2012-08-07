@@ -170,8 +170,8 @@ public class Player extends Sprite {
 
     public void update( GameContainer gc, StateBasedGame sb, int delta){
     	Input input = gc.getInput();
-    	boolean l = input.isKeyDown( Input.KEY_LEFT);
-    	boolean r = input.isKeyDown( Input.KEY_RIGHT);
+    	boolean l = input.isKeyDown( Input.KEY_A);
+    	boolean r = input.isKeyDown( Input.KEY_D);
     	
     	if( (l && r) || ( !l && !r)){
     		v.x *= 0.6;
@@ -183,11 +183,11 @@ public class Player extends Sprite {
      		v.x = 0.1f;
 		}
     	
-    	if( input.isKeyDown( Input.KEY_SPACE)){
+    	if( input.isKeyDown( Input.KEY_RETURN)){
      		setPosition( 500f, 10f);
 		}
     	
-    	if( input.isKeyPressed( Input.KEY_UP) && jumpLock){
+    	if( input.isKeyPressed( Input.KEY_W) && jumpLock){
     		v.y -= CONST.JUMP_FORCE;
     		jumpLock = false;
     	}
@@ -205,8 +205,26 @@ public class Player extends Sprite {
     }
 
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
+    	Input input = gc.getInput();
+    	Vector2f pCursor = new Vector2f( input.getMouseX(), input.getMouseY());
     	gr.drawAnimation( aniSprite, p.x, p.y);
-    	gr.drawAnimation( arms, p.x + 2, p.y - 3);
+    	
+    	if( pCursor.x > p.x + CONST.PLAYER_WIDTH / 2){
+    		arms.setCurrentFrame( 0);
+	    	gr.rotate( p.x + CONST.PLAYER_WIDTH / 2, p.y,
+	    			(float)(Math.atan( ( pCursor.y - p.y) / ( pCursor.x - p.x - CONST.PLAYER_WIDTH / 2)) * 180 / Math.PI));
+	    	gr.drawAnimation( arms, p.x + 3, p.y - 3);
+	    	gr.rotate( p.x + CONST.PLAYER_WIDTH / 2, p.y, 
+	    			-(float)(Math.atan( ( pCursor.y - p.y) / ( pCursor.x - p.x - CONST.PLAYER_WIDTH / 2)) * 180 / Math.PI));
+    	}
+    	else{
+    		arms.setCurrentFrame( 1);
+	    	gr.rotate( p.x + CONST.PLAYER_WIDTH / 2, p.y, 
+	    			(float)(Math.atan( ( pCursor.y - p.y) / ( pCursor.x - p.x - CONST.PLAYER_WIDTH / 2)) * 180 / Math.PI));
+	    	gr.drawAnimation( arms, p.x - 6, p.y - 3);
+	    	gr.rotate( p.x + CONST.PLAYER_WIDTH / 2, p.y, 
+	    			-(float)(Math.atan( ( pCursor.y - p.y) / ( pCursor.x - p.x - CONST.PLAYER_WIDTH / 2)) * 180 / Math.PI));
+    	}
     	
     }
 	
