@@ -60,7 +60,7 @@ public class Player extends Sprite {
 	 * @param arms Animation
 	 * @param world	mainMap tileset
 	 */
-	public Player(Animation pSprite, Animation arms, TiledMap world) {
+	public Player( Animation pSprite, Animation arms, TiledMap world) {
 		super( pSprite);
 		this.world = world; 
 		this.arms = arms;
@@ -74,7 +74,7 @@ public class Player extends Sprite {
 	 * @param nX Player X default position
 	 * @param nY Player Y default position
 	 */
-	public Player(Animation pSprite, Animation arms, TiledMap world, float nX, float nY) {
+	public Player( Animation pSprite, Animation arms, TiledMap world, float nX, float nY) {
 		super( pSprite, nX, nY);
 		this.world = world; 
 		this.arms = arms;

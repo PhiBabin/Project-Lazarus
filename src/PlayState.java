@@ -9,6 +9,8 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -36,10 +38,13 @@ public class PlayState extends BasicGameState {
 	
 	private Player player;
 	
+	private ArrayList<Sprite> entityList = null; 
+	
+	private int lastBullet = 0;
+	
 	private Vector2f pCursor = new Vector2f( 0, 0);
 	private Vector2f cam = new Vector2f( 0, 0);
 	
-	private boolean debugAnti = true;
 	
 	int stateID=-1;
 	
@@ -57,34 +62,56 @@ public class PlayState extends BasicGameState {
     	 mainMap = new TiledMap("map/level.tmx");
     	 
     	 player = new Player( resManag.player, resManag.arms, mainMap, 400, 100);
+    	 
+    	 entityList = new ArrayList<Sprite>();
     }
  
-    public void render( GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
-    	gr.setAntiAlias( debugAnti);
-    		
+    public void render( GameContainer gc, StateBasedGame sb, Graphics gr) throws SlickException {
 		mainMap.render( 0, 0);
-		player.render( gc, sbg, gr);
+		
+    	for( Sprite entity : entityList){
+    		entity.render( gc, sb, gr);
+    	}
+    	
+		player.render( gc, sb, gr);
 		
 		gr.drawString( player.getV().y + "", 5.f, 50.f);
 		gr.drawString( "Angle - " + Math.atan( ( pCursor.y - player.getY()) / ( pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2))* 180 / Math.PI, 5.f, 65.f);
 		gr.drawString( "Triangle - ( " + (pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2) + "," + (pCursor.y - player.getY()) + ")", 5.f, 90.f);
 		gr.drawString( "JUMP - " + player.isJumpLock(), 5.f, 105.f);
-		gr.drawString( "Anti - " + debugAnti, 5.f, 120.f);
- 
+		gr.drawString( "Bullet - " + entityList.size(), 5.f, 120.f);
+		
     }
  
-    public void update( GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+    public void update( GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
     	Input input = gc.getInput();
     	
-    	player.update(gc, sbg, delta);
+    	player.update(gc, sb, delta);
+    	
+    	for( Sprite entity : entityList){
+    		entity.update( gc, sb, delta);
+    	}
+    		
 
     	pCursor.x = input.getMouseX() + cam.x;
     	pCursor.y = input.getMouseY() + cam.y;
     	
-    	if( !debugAnti && input.isKeyPressed( Input.KEY_G) )
-    		debugAnti = true;
-    	else if( debugAnti && input.isKeyPressed( Input.KEY_G))
-    		debugAnti = false;
+    	lastBullet += delta;
+    	if( input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON) && lastBullet >= 200){
+    		Vector2f bG = new Vector2f(  pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2, pCursor.y - player.getY());
+    		double h = Math.sqrt( bG.x * bG.x + bG.y * bG.y);
+    		
+    		Vector2f bP = new Vector2f( player.getX() + CONST.PLAYER_WIDTH / 2, player.getY());
+    		Vector2f bV = null;
+
+    		bV = new Vector2f(
+    				(float) ( bG.x / h) * CONST.BULLET_VELOCITY,
+    				(float) ( bG.y / h) * CONST.BULLET_VELOCITY);
+    		
+    		entityList.add( new Bullet( resManag.bullet, bP.x, bP.y, bV));
+    		
+    		lastBullet = 0;
+    	}
     	
     }
     

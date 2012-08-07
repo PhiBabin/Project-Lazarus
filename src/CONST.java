@@ -25,6 +25,8 @@ public class CONST {
 	public static final int PLAYER_WIDTH = 9;
 	public static final int PLAYER_HEIGHT = 21;
 	
+	public static final float BULLET_VELOCITY = 0.2f;
+	
 	
 	/** Map parameter */
 	public static final int TILE_WIDTH = 10;

@@ -38,6 +38,7 @@ public class RessourceManager {
 			else {
 				imgPlayer = new SpriteSheet( new Image("img/player.png", false), 9, 21);
 				imgArms = new SpriteSheet( new Image("img/arm.png", false), 12, 8);
+				imgBullet = new SpriteSheet( new Image("img/bullet.png", false), 5, 5);
 				tilesetImg = new SpriteSheet( new Image("img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
 			}
 			player = new Animation( imgPlayer, 100000);
