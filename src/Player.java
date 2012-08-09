@@ -55,29 +55,47 @@ public class Player extends Sprite {
 	private boolean jumpLock = false;
 	
 	/**
+	 * Hp of the player
+	 */
+	private int hp = 20;
+	
+	/**
+	 * Armour of the player
+	 */
+	private int armour = 0;
+	
+	/**
+	 * Inventory of the player
+	 */
+	private Item[] inventory = new Item[3];
+	
+	/**
+	 * Equipped item
+	 */
+	private int equiped = 0;
+	
+	
+	
+	/**
 	 * Constructor of the Player
-	 * @param pSprite Animation
-	 * @param arms Animation
 	 * @param world	mainMap tileset
 	 */
-	public Player( Animation pSprite, Animation arms, TiledMap world) {
-		super( pSprite);
+	public Player( TiledMap world) {
+		super( RessourceManager.player);
 		this.world = world; 
-		this.arms = arms;
+		this.arms = RessourceManager.arms;
 	}
 	
 	/**
 	 * Constructor of the Player
-	 * @param pSprite Animation
-	 * @param arms Animation
 	 * @param world	mainMap tileset
 	 * @param nX Player X default position
 	 * @param nY Player Y default position
 	 */
-	public Player( Animation pSprite, Animation arms, TiledMap world, float nX, float nY) {
-		super( pSprite, nX, nY);
+	public Player( TiledMap world, float nX, float nY) {
+		super( RessourceManager.player, nX, nY);
 		this.world = world; 
-		this.arms = arms;
+		this.arms = RessourceManager.arms;
 	}
 	
 	/**
@@ -107,6 +125,8 @@ public class Player extends Sprite {
 		boolean lc = isSolidBlock( pn.x, pn.y + h/2);
 		boolean rc = isSolidBlock( pn.x + w, pn.y + h/2);
 		
+		boolean feetTouch = lb || rb;
+		
 		double ptLength = 0, optimalLength = 0;
 		 
 		/** Contain the optimal new movable position for the Player */
@@ -123,8 +143,8 @@ public class Player extends Sprite {
 		}
 		
 		/** This loop tries all the possible position */
-		for(int i=0; i<20; i++){
-			for(int j=0; j<20; j++){
+		for( int i=0; i<20; i++){
+			for( int j=0; j<20; j++){
 				
 				pt.x = pn.x-(pn.x - p.x) * (float)Math.pow( 0.8, i);
 				pt.y = pn.y-(pn.y - p.y) * (float)Math.pow( 0.8, j);
@@ -140,7 +160,7 @@ public class Player extends Sprite {
 				if(!lt && !lb && !rt && !rb){
 					
 					/** We check the pt length compare to the current Player's position */
-					ptLength = Math.sqrt((pt.x - p.x)*(pt.x - p.x)+(pt.y - p.y)*(pt.y - p.y));
+					ptLength = Math.sqrt( (pt.x - p.x) * (pt.x - p.x) + (pt.y - p.y) * (pt.y - p.y));
 					
 					if(ptLength > optimalLength){
 						lc = isSolidBlock( pt.x, pt.y + h/2);
@@ -157,9 +177,11 @@ public class Player extends Sprite {
 		}
 		
 		/** If they was a vertical collision, set vertical velocity to zero */
-		if(optimal.y <= pn.y - 3){
+		if(optimal.y <= pn.y - 3 ){
 			v.y = 0;
-			jumpLock = true;
+			if( feetTouch){
+				jumpLock = true;
+			}
 		}
 		
 		/** The optimal new position becomes the current position */
@@ -200,6 +222,8 @@ public class Player extends Sprite {
     	pn.x = p.x + v.x * delta;
     	pn.y = p.y + v.y * delta;
     	
+    	inventory[equiped].update( gc, sb, delta);
+    	
     	doWorldCollision();
 	//	System.out.println("p: " + p.x + " " + p.y + " pn: " + pn.x + " " + pn.y);
     }
@@ -209,24 +233,16 @@ public class Player extends Sprite {
     	Vector2f pCursor = new Vector2f( input.getMouseX(), input.getMouseY());
     	gr.drawAnimation( aniSprite, p.x, p.y);
     	
-    	if( pCursor.x > p.x + CONST.PLAYER_WIDTH / 2){
-    		arms.setCurrentFrame( 0);
-	    	gr.rotate( p.x + CONST.PLAYER_WIDTH / 2, p.y,
-	    			(float)(Math.atan( ( pCursor.y - p.y) / ( pCursor.x - p.x - CONST.PLAYER_WIDTH / 2)) * 180 / Math.PI));
-	    	gr.drawAnimation( arms, p.x + 3, p.y - 3);
-	    	gr.rotate( p.x + CONST.PLAYER_WIDTH / 2, p.y, 
-	    			-(float)(Math.atan( ( pCursor.y - p.y) / ( pCursor.x - p.x - CONST.PLAYER_WIDTH / 2)) * 180 / Math.PI));
-    	}
-    	else{
-    		arms.setCurrentFrame( 1);
-	    	gr.rotate( p.x + CONST.PLAYER_WIDTH / 2, p.y, 
-	    			(float)(Math.atan( ( pCursor.y - p.y) / ( pCursor.x - p.x - CONST.PLAYER_WIDTH / 2)) * 180 / Math.PI));
-	    	gr.drawAnimation( arms, p.x - 6, p.y - 3);
-	    	gr.rotate( p.x + CONST.PLAYER_WIDTH / 2, p.y, 
-	    			-(float)(Math.atan( ( pCursor.y - p.y) / ( pCursor.x - p.x - CONST.PLAYER_WIDTH / 2)) * 180 / Math.PI));
-    	}
+    	inventory[equiped].render( gc, sb, gr);
+    	
+    	
     	
     }
+	
+	public void itSdangerousToGoAloneTakeThis( Item item, int slot){
+		inventory[slot] = item;
+		equiped = slot;
+	}
 	
     public Vector2f getV() {
 		return v;

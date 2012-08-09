@@ -20,7 +20,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class RessourceManager {
-	public Animation player = null, tileset = null, arms = null, bullet = null;
+	public static Animation player = null, tileset = null, arms = null, bullet = null;
 	public SpriteSheet imgPlayer = null, tilesetImg = null, imgArms = null, imgBullet = null;
 	
 	public RessourceManager(){

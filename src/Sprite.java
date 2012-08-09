@@ -36,7 +36,7 @@ public class Sprite {
 	 * @param pSprite
 	 */
 	public Sprite(Animation pSprite){
-		aniSprite=pSprite;
+		aniSprite = pSprite;
 		h = aniSprite.getHeight();
 		w = aniSprite.getWidth();
 		
@@ -48,19 +48,20 @@ public class Sprite {
 	 * @param pSprite , nX, nY
 	 */
 	public Sprite(Animation pSprite, float nX, float nY){
-		aniSprite=pSprite;
+		aniSprite = pSprite;
 		h = aniSprite.getHeight();
 		w = aniSprite.getWidth();
 		
-		p= new Vector2f(nX,nY);
+		p = new Vector2f(nX,nY);
 	}
+	
 	/**
 	 * Simple Sprite render function
 	 * @param gc GameContainer
 	 * @param sb StateBasedGame
 	 * @param gr Graphics
 	 */
-	public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
+	public void render( GameContainer gc, StateBasedGame sb, Graphics gr){
 		aniSprite.draw( p.x, p.y);
 	}
 	
@@ -70,7 +71,7 @@ public class Sprite {
 	 * @param sb StateBasedGame
 	 * @param delta Time between frame
 	 */
-    public void update(GameContainer gc, StateBasedGame sb, int delta){
+    public void update( GameContainer gc, StateBasedGame sb, int delta){
     	
     }
     

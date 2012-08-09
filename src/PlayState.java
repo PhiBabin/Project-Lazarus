@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -61,12 +62,17 @@ public class PlayState extends BasicGameState {
     	resManag = new RessourceManager();
     	 mainMap = new TiledMap("map/level.tmx");
     	 
-    	 player = new Player( resManag.player, resManag.arms, mainMap, 400, 100);
+    	 player = new Player( mainMap, 400, 100);
+    	 
+    	 player.itSdangerousToGoAloneTakeThis( new MachineGun(), 0);
     	 
     	 entityList = new ArrayList<Sprite>();
+    	 
+    	 Item.playstate = this;
     }
  
     public void render( GameContainer gc, StateBasedGame sb, Graphics gr) throws SlickException {
+    	gr.setBackground( Color.gray);
 		mainMap.render( 0, 0);
 		
     	for( Sprite entity : entityList){
@@ -75,11 +81,13 @@ public class PlayState extends BasicGameState {
     	
 		player.render( gc, sb, gr);
 		
-		gr.drawString( player.getV().y + "", 5.f, 50.f);
-		gr.drawString( "Angle - " + Math.atan( ( pCursor.y - player.getY()) / ( pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2))* 180 / Math.PI, 5.f, 65.f);
+		gr.drawString( "Velocity Y - " + player.getV().y * 100, 5.f, 50.f);
 		gr.drawString( "Triangle - ( " + (pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2) + "," + (pCursor.y - player.getY()) + ")", 5.f, 90.f);
 		gr.drawString( "JUMP - " + player.isJumpLock(), 5.f, 105.f);
 		gr.drawString( "Bullet - " + entityList.size(), 5.f, 120.f);
+		//gr.drawString( "Angle new - " + pCursor.sub( player.getPosition()).getTheta(), 5.f, 135.f);
+		//gr.drawString( "Angle - " + Math.atan( ( pCursor.y - player.getY()) / ( pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2)) * 180 / Math.PI, 5.f, 150.f);
+		
 		
     }
  
@@ -96,23 +104,18 @@ public class PlayState extends BasicGameState {
     	pCursor.x = input.getMouseX() + cam.x;
     	pCursor.y = input.getMouseY() + cam.y;
     	
-    	lastBullet += delta;
-    	if( input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON) && lastBullet >= 200){
-    		Vector2f bG = new Vector2f(  pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2, pCursor.y - player.getY());
-    		double h = Math.sqrt( bG.x * bG.x + bG.y * bG.y);
-    		
-    		Vector2f bP = new Vector2f( player.getX() + CONST.PLAYER_WIDTH / 2, player.getY());
-    		Vector2f bV = null;
-
-    		bV = new Vector2f(
-    				(float) ( bG.x / h) * CONST.BULLET_VELOCITY,
-    				(float) ( bG.y / h) * CONST.BULLET_VELOCITY);
-    		
-    		entityList.add( new Bullet( resManag.bullet, bP.x, bP.y, bV));
-    		
-    		lastBullet = 0;
-    	}
-    	
+    }
+    
+    public Player getPlayer(){
+    	return player;
+    }
+    
+    public ArrayList<Sprite> getEntities(){
+    	return entityList;
+    }
+    
+    public void addEntity( Sprite entity){
+    	entityList.add( entity);
     }
     
 	@Override

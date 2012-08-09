@@ -12,63 +12,82 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
+public class Item {
+	
+	public static PlayState playstate;
 
-/**
- * Bullet entity
- * This object is a shooting projectable.
- * 
- * @author Philippe Babin
- *
- */
-public class Bullet extends Sprite {
+	/**
+	 * Name of the item ( seed)
+	 */
+	private String name;
 	
 	/**
-	 * Velocity of the Player
+	 * Image of the icon
 	 */
-	private Vector2f v = new Vector2f( 0, 0);
+	protected Image icon;
 	
 	/**
-	 * New position of the Player
+	 * Player arms draw when the item is equipped.
 	 */
-	private Vector2f pn = new Vector2f( 0, 0);
+	protected Animation arms;
+	
 
-	public Bullet( Animation pSprite, Vector2f v) {
-		super( pSprite);
-		this.v = v;
-	}
-	
 	/**
-	 * Constructor of the Player
-	 * @param pSprite Animation
-	 * @param nX Bullet X default position
-	 * @param nY Bullet Y default position
+	 * Damage min deals to the mob
 	 */
-	public Bullet( Animation pSprite, float nX, float nY, Vector2f v) {
-		super( pSprite, nX, nY);
-		this.v = v;
-	}
+	private int damageMin;
 	
 	/**
-	 * Bullet render function
+	 * Damage max deals to the mob
+	 */
+	protected int damageMax;
+
+	/**
+	 * Item render function
 	 * @param gc GameContainer
 	 * @param sb StateBasedGame
 	 * @param gr Graphics
 	 */
-	public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
-		aniSprite.draw( p.x, p.y);
+	public void render( GameContainer gc, StateBasedGame sb, Graphics gr){
+		
 	}
 	
 	/**
-	 * Bullet update function
+	 * Item update function
 	 * @param gc GameContainer
 	 * @param sb StateBasedGame
 	 * @param delta Time between frame
 	 */
-    public void update(GameContainer gc, StateBasedGame sb, int delta){
-    	p.x += v.x * delta;
-    	p.y += v.y * delta;
+    public void update( GameContainer gc, StateBasedGame sb, int delta){
+    	
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public int getDamageMin() {
+		return damageMin;
+	}
+
+	public int getDamageMax() {
+		return damageMax;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setDamageMin(int damageMin) {
+		this.damageMin = damageMin;
+	}
+
+	public void setDamageMax(int damageMax) {
+		this.damageMax = damageMax;
+	}
+    
 }
