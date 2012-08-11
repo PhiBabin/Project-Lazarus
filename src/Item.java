@@ -45,6 +45,10 @@ public class Item {
 	 * Damage max deals to the mob
 	 */
 	protected int damageMax;
+	
+	Item( String name){
+		this.name = name;
+	}
 
 	/**
 	 * Item render function

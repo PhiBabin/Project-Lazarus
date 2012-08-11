@@ -15,22 +15,27 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
-
-/**
- * Bullet entity
- * This object is a shooting projectable.
+/***
+ * 30% more bro than a regular boomerang :D
  * 
  * @author Philippe Babin
- *
  */
-public class Bullet extends Sprite {
-	
-	/**
-	 * Velocity of the Bullet
-	 */
-	private Vector2f v = new Vector2f( 0, 0);
 
-	public Bullet( Animation pSprite, Vector2f v) {
+public class Brorang extends Sprite {
+	
+	/** Velocity of the Player */
+	private Vector2f v = new Vector2f( 0, 0);
+	
+	/** Traveled distance */
+	private int distance = 0;
+	
+	/** Rotation of the boomerang */
+	private float rotation = 0;
+	
+	/**  Is comeback */
+	private boolean comeback = false;
+
+	public Brorang( Animation pSprite, Vector2f v) {
 		super( pSprite);
 		this.v = v;
 	}
@@ -41,7 +46,7 @@ public class Bullet extends Sprite {
 	 * @param nX Bullet X default position
 	 * @param nY Bullet Y default position
 	 */
-	public Bullet( Animation pSprite, Vector2f p, Vector2f v) {
+	public Brorang( Animation pSprite, Vector2f p, Vector2f v) {
 		super( pSprite, p);
 		this.v = v;
 	}
@@ -53,7 +58,9 @@ public class Bullet extends Sprite {
 	 * @param gr Graphics
 	 */
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
+    	gr.rotate( p.x + 6, p.y + 3, rotation);
 		aniSprite.draw( p.x, p.y);
+    	gr.rotate( p.x + 6, p.y + 3, -rotation);
 	}
 	
 	/**
@@ -63,7 +70,32 @@ public class Bullet extends Sprite {
 	 * @param delta Time between frame
 	 */
     public void update(GameContainer gc, StateBasedGame sb, int delta){
-    	p.x += v.x * delta;
-    	p.y += v.y * delta;
+    	
+    	if( !comeback){
+        	rotation += CONST.BOOMERANG_ROTATION_VELOCITY_IN * delta;
+	    	p.x += v.x * delta;
+	    	p.y += v.y * delta;
+	    	
+	    	distance += Math.sqrt( v.x * delta * v.x * delta + v.y * delta * v.y * delta);
+	    	
+	    	if( distance > CONST.BOOMERANG_LENTH)
+	    		comeback = true;
+    	}
+    	else{
+        	rotation -= CONST.BOOMERANG_ROTATION_VELOCITY_OUT * delta;
+        	Vector2f pPlayer = playstate.getPlayer().getPosition();
+    		Vector2f bG = new Vector2f(  p.x - pPlayer.x - CONST.PLAYER_WIDTH / 2, p.y - pPlayer.y);
+			double h = bG.length();
+			
+			Vector2f bP = new Vector2f( pPlayer.x + CONST.PLAYER_WIDTH / 2 , pPlayer.y);
+			
+	    	p.x -= ( bG.x / h) * CONST.BOOMERANG_VELOCITY_OUT * delta;
+	    	p.y -= ( bG.y / h) * CONST.BOOMERANG_VELOCITY_OUT * delta;
+	    	
+	    	if( bG.length() < 5.f){
+	    		delete = true;
+	    		playstate.getPlayer().receiveBoomerang();
+	    	}
+    	}
     }
 }

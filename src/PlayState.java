@@ -62,25 +62,30 @@ public class PlayState extends BasicGameState {
     	resManag = new RessourceManager();
     	 mainMap = new TiledMap("map/level.tmx");
     	 
-    	 player = new Player( mainMap, 400, 100);
+    	 player = new Player( mainMap, new Vector2f( 400, 100));
     	 
-    	 player.itSdangerousToGoAloneTakeThis( new MachineGun(), 0);
+    	 player.itSdangerousToGoAloneTakeThis( new MachineGun( "Sasha"), 0);
+    	 player.itSdangerousToGoAloneTakeThis( new Boomerang( "Bro-omerang"), 1);
     	 
     	 entityList = new ArrayList<Sprite>();
     	 
     	 Item.playstate = this;
+    	 Sprite.playstate = this;
     }
  
     public void render( GameContainer gc, StateBasedGame sb, Graphics gr) throws SlickException {
     	gr.setBackground( Color.gray);
 		mainMap.render( 0, 0);
 		
-    	for( Sprite entity : entityList){
-    		entity.render( gc, sb, gr);
+    	for( int i = 0; i < entityList.size();i++){
+    		entityList.get( i).render( gc, sb, gr);
+    		if( entityList.get( i).isDelete())
+    			entityList.remove(i);
     	}
     	
 		player.render( gc, sb, gr);
 		
+		System.out.println( player.getV().y);
 		gr.drawString( "Velocity Y - " + player.getV().y * 100, 5.f, 50.f);
 		gr.drawString( "Triangle - ( " + (pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2) + "," + (pCursor.y - player.getY()) + ")", 5.f, 90.f);
 		gr.drawString( "JUMP - " + player.isJumpLock(), 5.f, 105.f);

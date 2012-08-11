@@ -20,8 +20,8 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class RessourceManager {
-	public static Animation player = null, tileset = null, arms = null, bullet = null;
-	public SpriteSheet imgPlayer = null, tilesetImg = null, imgArms = null, imgBullet = null;
+	public static Animation player = null, tileset = null, arms = null, bullet = null, arms_b = null, boomerang = null;
+	public SpriteSheet imgPlayer = null, tilesetImg = null, imgArms = null, imgBullet = null, imgArmsB = null, imgBoomerang = null;
 	
 	public RessourceManager(){
 		loadImage();
@@ -37,15 +37,23 @@ public class RessourceManager {
 			}
 			else {
 				imgPlayer = new SpriteSheet( new Image("img/player.png", false), 9, 21);
+				
 				imgArms = new SpriteSheet( new Image("img/arm.png", false), 12, 8);
 				imgBullet = new SpriteSheet( new Image("img/bullet.png", false), 5, 5);
+				imgArmsB = new SpriteSheet( new Image("img/arm_test.png", false), 9, 15);
+				imgBoomerang = new SpriteSheet( new Image("img/boomerang.png", false), 14, 7);
+				
 				tilesetImg = new SpriteSheet( new Image("img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
 			}
 			player = new Animation( imgPlayer, 100000);
-			arms = new Animation( imgArms, 100);
+			arms = new Animation( imgArms, 100000000);
 			arms.stop();
-			bullet = new Animation( imgBullet, 100);
+			bullet = new Animation( imgBullet, 10000000);
 			bullet.stop();
+			arms_b = new Animation( imgArmsB, 100000000);
+			arms_b.stop();
+			boomerang = new Animation( imgBoomerang, 1000000);
+			boomerang.stop();
 			
 		} catch (SlickException e) {
 			e.printStackTrace();

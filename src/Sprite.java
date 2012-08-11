@@ -19,6 +19,10 @@ import org.newdawn.slick.state.StateBasedGame;
  *
  */
 public class Sprite {
+	
+	/** THE PlayState (I know, I'm not suppose to do that. Sorry :_(  */
+	public static PlayState playstate;
+	
 	/** Animation of the sprite  */
 	protected Animation aniSprite;
 	
@@ -31,6 +35,9 @@ public class Sprite {
 	/** Dimension of the sprite  */
 	protected int h, w;
 	
+	/** Position of the sprite  */
+	protected boolean delete;
+	
 	/**
 	 * Constructor of a simple sprite
 	 * @param pSprite
@@ -40,19 +47,23 @@ public class Sprite {
 		h = aniSprite.getHeight();
 		w = aniSprite.getWidth();
 		
-		p = new Vector2f(0,0);
+		p = new Vector2f( 0, 0);
+		
+		delete = false;
 	}
 	
 	/**
 	 * Constructor of a simple Sprite
 	 * @param pSprite , nX, nY
 	 */
-	public Sprite(Animation pSprite, float nX, float nY){
+	public Sprite(Animation pSprite, Vector2f p){
 		aniSprite = pSprite;
 		h = aniSprite.getHeight();
 		w = aniSprite.getWidth();
 		
-		p = new Vector2f(nX,nY);
+		this.p = p;
+		
+		delete = false;
 	}
 	
 	/**
@@ -166,7 +177,14 @@ public class Sprite {
 	public Animation getAnimation() {
 		return aniSprite;
 	}
-	
+
+	/**
+	 * Is need to be delete?
+	 * @return delete
+	 */
+	public boolean isDelete() {
+		return delete;
+	}
 	/**
 	 * Set Sprite scale
 	 * @param nScale new Scale float

@@ -92,8 +92,8 @@ public class Player extends Sprite {
 	 * @param nX Player X default position
 	 * @param nY Player Y default position
 	 */
-	public Player( TiledMap world, float nX, float nY) {
-		super( RessourceManager.player, nX, nY);
+	public Player( TiledMap world, Vector2f p) {
+		super( RessourceManager.player, p);
 		this.world = world; 
 		this.arms = RessourceManager.arms;
 	}
@@ -209,7 +209,7 @@ public class Player extends Sprite {
      		setPosition( 500f, 10f);
 		}
     	
-    	if( input.isKeyPressed( Input.KEY_W) && jumpLock){
+    	if( input.isKeyDown( Input.KEY_W) && jumpLock){
     		v.y -= CONST.JUMP_FORCE;
     		jumpLock = false;
     	}
@@ -242,6 +242,14 @@ public class Player extends Sprite {
 	public void itSdangerousToGoAloneTakeThis( Item item, int slot){
 		inventory[slot] = item;
 		equiped = slot;
+	}
+	
+	public void receiveBoomerang(){
+		for( int i = 0; i < 2; i++){
+			if( inventory[i] instanceof Boomerang){
+				((Boomerang)inventory[i]).receiveBoomerang();
+			}
+		}
 	}
 	
     public Vector2f getV() {
