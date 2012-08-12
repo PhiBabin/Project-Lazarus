@@ -91,11 +91,22 @@ public class Brorang extends Sprite {
 			
 	    	p.x -= ( bG.x / h) * CONST.BOOMERANG_VELOCITY_OUT * delta;
 	    	p.y -= ( bG.y / h) * CONST.BOOMERANG_VELOCITY_OUT * delta;
-	    	
-	    	if( bG.length() < 5.f){
-	    		delete = true;
-	    		playstate.getPlayer().receiveBoomerang();
-	    	}
     	}
     }
+
+	public Vector2f getV() {
+		return v;
+	}
+
+	public boolean isComeback() {
+		return comeback;
+	}
+
+	public void setV(Vector2f v) {
+		this.v = v;
+	}
+
+	public void setComeback(boolean comeback) {
+		this.comeback = comeback;
+	}
 }

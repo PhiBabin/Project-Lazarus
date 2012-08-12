@@ -19,12 +19,14 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Boomerang extends Item {
 	
 	private boolean inHand;
+	private Brorang theBrorang;
 	
 	Boomerang( String name){
 		super( name);
 		icon = RessourceManager.arms.getImage( 0);
 		arms = RessourceManager.arms_b;
 		inHand = true;
+		theBrorang = new Brorang( RessourceManager.boomerang, new Vector2f( 0, 0), new Vector2f( 0, 0));
 	}
 	
 	/**
@@ -44,14 +46,26 @@ public class Boomerang extends Item {
     	if( pCursor.x > pPlayer.x + CONST.PLAYER_WIDTH / 2){
     		arms.setCurrentFrame(0);
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, armAngle);
+	    	
+	    	if( inHand)
+	    		gr.drawAnimation( theBrorang.getAnimation(), pPlayer.x + CONST.PLAYER_WIDTH / 2 - 1, pPlayer.y + 2);
 	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - 4, pPlayer.y - 7);
+	    	
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, -armAngle);
 	    }
     	else{
     		arms.setCurrentFrame(1);
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, armAngle);
+	    	
+	    	if( inHand)
+	    		gr.drawAnimation( theBrorang.getAnimation(), pPlayer.x + CONST.PLAYER_WIDTH / 2 - 13, pPlayer.y + 2);
 	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - arms.getWidth() + 4, pPlayer.y - 7);
+	    	
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, -armAngle);
+    	}
+    	
+    	if( !inHand){
+    		theBrorang.render( gc, sb, gr);
     	}
 	}
 	
@@ -71,18 +85,30 @@ public class Boomerang extends Item {
 			Vector2f bG = new Vector2f(  pCursor.x - pPlayer.x - CONST.PLAYER_WIDTH / 2, pCursor.y - pPlayer.y);
 			double h = Math.sqrt( bG.x * bG.x + bG.y * bG.y);
 			
-			Vector2f bP = new Vector2f( pPlayer.x + CONST.PLAYER_WIDTH / 2 - 1, pPlayer.y);
+			Vector2f bP = new Vector2f( 
+					pPlayer.x + CONST.PLAYER_WIDTH / 2 - RessourceManager.boomerang.getWidth()/2,
+					pPlayer.y - RessourceManager.boomerang.getHeight()/2);
 			Vector2f bV =  new Vector2f(
 					(float) ( bG.x / h) * CONST.BOOMERANG_VELOCITY_IN,
 					(float) ( bG.y / h) * CONST.BOOMERANG_VELOCITY_IN);
 			
-			playstate.addEntity( new Brorang( RessourceManager.boomerang, bP, bV));
+			theBrorang = new Brorang( RessourceManager.boomerang, bP, bV);
+			//playstate.addEntity( new Brorang( RessourceManager.boomerang, bP, bV));
 			
 			inHand = false;
 		}
+		
+		
+    	if( !inHand){
+    		theBrorang.update( gc, sb, delta);
+    		Vector2f bG = new Vector2f( theBrorang.getX() - pPlayer.x - CONST.PLAYER_WIDTH / 2, theBrorang.getY() - pPlayer.y);
+	    	if( bG.length() < 5.f && theBrorang.isComeback()){
+	    		inHand = true;
+	    	}
+    	}
     }
     
-	public void receiveBoomerang(){
-		inHand = true;
-	}
+    public void switchWeapon(){
+    	inHand = true;
+    }
 }

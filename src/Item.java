@@ -70,6 +70,13 @@ public class Item {
     	
     }
 
+	/**
+	 * This function is call when the current weapon is switch
+	 */
+    public void switchWeapon(){
+    
+    }
+
 	public String getName() {
 		return name;
 	}

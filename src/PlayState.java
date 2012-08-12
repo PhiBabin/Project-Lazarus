@@ -66,6 +66,7 @@ public class PlayState extends BasicGameState {
     	 
     	 player.itSdangerousToGoAloneTakeThis( new MachineGun( "Sasha"), 0);
     	 player.itSdangerousToGoAloneTakeThis( new Boomerang( "Bro-omerang"), 1);
+    	 player.switchWeapon( 0);
     	 
     	 entityList = new ArrayList<Sprite>();
     	 
@@ -85,7 +86,6 @@ public class PlayState extends BasicGameState {
     	
 		player.render( gc, sb, gr);
 		
-		System.out.println( player.getV().y);
 		gr.drawString( "Velocity Y - " + player.getV().y * 100, 5.f, 50.f);
 		gr.drawString( "Triangle - ( " + (pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2) + "," + (pCursor.y - player.getY()) + ")", 5.f, 90.f);
 		gr.drawString( "JUMP - " + player.isJumpLock(), 5.f, 105.f);
@@ -98,16 +98,22 @@ public class PlayState extends BasicGameState {
  
     public void update( GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
     	Input input = gc.getInput();
+
+    	pCursor.x = input.getMouseX() + cam.x;
+    	pCursor.y = input.getMouseY() + cam.y;
     	
     	player.update(gc, sb, delta);
     	
     	for( Sprite entity : entityList){
     		entity.update( gc, sb, delta);
     	}
-    		
-
-    	pCursor.x = input.getMouseX() + cam.x;
-    	pCursor.y = input.getMouseY() + cam.y;
+    	
+    	if( input.isKeyDown( Input.KEY_1))
+    		player.switchWeapon( 0);
+    	if( input.isKeyDown( Input.KEY_2))
+    		player.switchWeapon( 1);
+    	if( input.isKeyDown( Input.KEY_3))
+    		player.switchWeapon( 2);
     	
     }
     

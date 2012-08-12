@@ -222,7 +222,8 @@ public class Player extends Sprite {
     	pn.x = p.x + v.x * delta;
     	pn.y = p.y + v.y * delta;
     	
-    	inventory[equiped].update( gc, sb, delta);
+    	if( inventory[equiped] != null)
+    		inventory[equiped].update( gc, sb, delta);
     	
     	doWorldCollision();
 	//	System.out.println("p: " + p.x + " " + p.y + " pn: " + pn.x + " " + pn.y);
@@ -232,28 +233,35 @@ public class Player extends Sprite {
     	Input input = gc.getInput();
     	Vector2f pCursor = new Vector2f( input.getMouseX(), input.getMouseY());
     	gr.drawAnimation( aniSprite, p.x, p.y);
-    	
-    	inventory[equiped].render( gc, sb, gr);
-    	
-    	
-    	
+
+    	if( inventory[equiped] != null)
+    		inventory[equiped].render( gc, sb, gr);
     }
+
+	public void switchWeapon(int equiped){
+		inventory[this.equiped].switchWeapon();
+		this.equiped = equiped;
+	}
 	
 	public void itSdangerousToGoAloneTakeThis( Item item, int slot){
 		inventory[slot] = item;
 		equiped = slot;
 	}
 	
-	public void receiveBoomerang(){
-		for( int i = 0; i < 2; i++){
-			if( inventory[i] instanceof Boomerang){
-				((Boomerang)inventory[i]).receiveBoomerang();
-			}
-		}
-	}
-	
     public Vector2f getV() {
 		return v;
+	}
+    
+	public int getHp() {
+		return hp;
+	}
+
+	public int getArmour() {
+		return armour;
+	}
+
+	public int getEquiped() {
+		return equiped;
 	}
 
 	public boolean isJumpLock() {
@@ -266,5 +274,14 @@ public class Player extends Sprite {
 
 	public void setJumpLock(boolean jumpLock) {
 		this.jumpLock = jumpLock;
+	}
+
+
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+
+	public void setArmour(int armour) {
+		this.armour = armour;
 	}
 }

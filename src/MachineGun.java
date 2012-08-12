@@ -17,7 +17,10 @@ import org.newdawn.slick.state.StateBasedGame;
 
 
 public class MachineGun extends Item {
+	
 	private int lastBullet = 0;
+	
+	float armAngle;
 	
 	
 	MachineGun( String name){
@@ -38,18 +41,18 @@ public class MachineGun extends Item {
     	
     	Vector2f pPlayer = playstate.getPlayer().getPosition();
     	
-    	float armAngle = (float)( Math.atan( ( pCursor.y - pPlayer.y) / ( pCursor.x - pPlayer.x - CONST.PLAYER_WIDTH / 2 - 0.00001)) * 180 / Math.PI);
+    	armAngle = (float)( Math.atan( ( pCursor.y - pPlayer.y) / ( pCursor.x - pPlayer.x - CONST.PLAYER_WIDTH / 2 - 0.00001)) * 180 / Math.PI);
     	
     	if( pCursor.x > pPlayer.x + CONST.PLAYER_WIDTH / 2){
     		arms.setCurrentFrame(0);
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, armAngle);
-	    	gr.drawAnimation( arms, pPlayer.x + 3, pPlayer.y - 3);
+	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - 4, pPlayer.y - 7);
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, -armAngle);
 	    }
     	else{
     		arms.setCurrentFrame(1);
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, armAngle);
-	    	gr.drawAnimation( arms, pPlayer.x - 6, pPlayer.y - 3);
+	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - arms.getWidth() + 4, pPlayer.y - 7);
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, -armAngle);
     	}
 	}
@@ -65,20 +68,25 @@ public class MachineGun extends Item {
     	Vector2f pCursor = new Vector2f( input.getMouseX(), input.getMouseY());
     	
     	Vector2f pPlayer = playstate.getPlayer().getPosition();
-    	
+
     	lastBullet += delta;
 		if( input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON) && lastBullet >= 200){
 			Vector2f bG = new Vector2f(  pCursor.x - pPlayer.x - CONST.PLAYER_WIDTH / 2, pCursor.y - pPlayer.y);
 			double h = Math.sqrt( bG.x * bG.x + bG.y * bG.y);
-			
+
 			Vector2f bP = new Vector2f( pPlayer.x + CONST.PLAYER_WIDTH / 2 - 1, pPlayer.y);
-			Vector2f bV = null;
-	
-			bV = new Vector2f(
+			Vector2f bV = new Vector2f(
 					(float) ( bG.x / h) * CONST.BULLET_VELOCITY,
 					(float) ( bG.y / h) * CONST.BULLET_VELOCITY);
+			Vector2f bP2 = null;
 			
-			playstate.addEntity( new Bullet( RessourceManager.bullet, bP, bV));
+
+			if( pCursor.x > pPlayer.x + CONST.PLAYER_WIDTH / 2)
+				bP2 = new Vector2f( bP.x - 3 * bG.y / bG.length(), bP.y + 3 * bG.x / bG.length());
+			else
+				bP2 = new Vector2f( bP.x + 3 * bG.y / bG.length(), bP.y - 3 * bG.x / bG.length());
+			
+			playstate.addEntity( new Bullet( RessourceManager.bullet, bP2, bV));
 			
 			lastBullet = 0;
 		}

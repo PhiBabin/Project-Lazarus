@@ -38,7 +38,7 @@ public class RessourceManager {
 			else {
 				imgPlayer = new SpriteSheet( new Image("img/player.png", false), 9, 21);
 				
-				imgArms = new SpriteSheet( new Image("img/arm.png", false), 12, 8);
+				imgArms = new SpriteSheet( new Image("img/arm_MG.png", false), 17, 15);
 				imgBullet = new SpriteSheet( new Image("img/bullet.png", false), 5, 5);
 				imgArmsB = new SpriteSheet( new Image("img/arm_test.png", false), 9, 15);
 				imgBoomerang = new SpriteSheet( new Image("img/boomerang.png", false), 14, 7);
