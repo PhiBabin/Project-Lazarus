@@ -9,60 +9,98 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
+package lazarus;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
-
-/**
- * Bullet entity
- * This object is a shooting projectable.
- * 
- * @author Philippe Babin
- *
- */
-public class Bullet extends Sprite {
+public class Item {
 	
-	/** Velocity of the Bullet */
-	private Vector2f v = new Vector2f( 0, 0);
+	public static PlayState playstate;
 
-	public Bullet( Animation pSprite, Vector2f v) {
-		super( pSprite);
-		this.v = v;
-	}
-	
 	/**
-	 * Constructor of the Player
-	 * @param pSprite Animation
-	 * @param nX Bullet X default position
-	 * @param nY Bullet Y default position
+	 * Name of the item ( seed)
 	 */
-	public Bullet( Animation pSprite, Vector2f p, Vector2f v) {
-		super( pSprite, p);
-		this.v = v;
-	}
+	private String name;
 	
 	/**
-	 * Bullet render function
+	 * Image of the icon
+	 */
+	protected Image icon;
+	
+	/**
+	 * Player arms draw when the item is equipped.
+	 */
+	protected Animation arms;
+	
+
+	/**
+	 * Damage min deals to the mob
+	 */
+	private int damageMin;
+	
+	/**
+	 * Damage max deals to the mob
+	 */
+	protected int damageMax;
+	
+	Item( String name){
+		this.name = name;
+	}
+
+	/**
+	 * Item render function
 	 * @param gc GameContainer
 	 * @param sb StateBasedGame
 	 * @param gr Graphics
 	 */
-	public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
-		aniSprite.draw( p.x, p.y);
+	public void render( GameContainer gc, StateBasedGame sb, Graphics gr){
+		
 	}
 	
 	/**
-	 * Bullet update function
+	 * Item update function
 	 * @param gc GameContainer
 	 * @param sb StateBasedGame
 	 * @param delta Time between frame
 	 */
-    public void update(GameContainer gc, StateBasedGame sb, int delta){
-    	p.x += v.x * delta;
-    	p.y += v.y * delta;
-    	v.y += CONST.BULLET_MASS * CONST.G_FORCE * delta - 0.01 * Math.random();
+    public void update( GameContainer gc, StateBasedGame sb, int delta){
+    	
     }
+
+	/**
+	 * This function is call when the current weapon is switch
+	 */
+    public void switchWeapon(){
+    
+    }
+
+	public String getName() {
+		return name;
+	}
+
+	public int getDamageMin() {
+		return damageMin;
+	}
+
+	public int getDamageMax() {
+		return damageMax;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setDamageMin(int damageMin) {
+		this.damageMin = damageMin;
+	}
+
+	public void setDamageMax(int damageMax) {
+		this.damageMax = damageMax;
+	}
+    
 }
