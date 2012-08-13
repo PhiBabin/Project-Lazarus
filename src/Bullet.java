@@ -25,9 +25,7 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class Bullet extends Sprite {
 	
-	/**
-	 * Velocity of the Bullet
-	 */
+	/** Velocity of the Bullet */
 	private Vector2f v = new Vector2f( 0, 0);
 
 	public Bullet( Animation pSprite, Vector2f v) {
@@ -65,5 +63,6 @@ public class Bullet extends Sprite {
     public void update(GameContainer gc, StateBasedGame sb, int delta){
     	p.x += v.x * delta;
     	p.y += v.y * delta;
+    	v.y += CONST.BULLET_MASS * CONST.G_FORCE * delta - 0.01 * Math.random();
     }
 }

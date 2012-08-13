@@ -26,6 +26,7 @@ public class CONST {
 	public static final int PLAYER_HEIGHT = 21;
 	
 	public static final float BULLET_VELOCITY = 0.2f;
+	public static final double BULLET_MASS = 5;
 	public static final float BOOMERANG_VELOCITY_IN = 0.2f;
 	public static final float BOOMERANG_VELOCITY_OUT = 0.25f;
 	public static final int BOOMERANG_LENTH = 160;

@@ -33,7 +33,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 public class PlayState extends BasicGameState {
 	
-	private TiledMap mainMap;
+	public static Level mainLevel;
 	
 	private RessourceManager resManag;
 	
@@ -44,6 +44,7 @@ public class PlayState extends BasicGameState {
 	private int lastBullet = 0;
 	
 	private Vector2f pCursor = new Vector2f( 0, 0);
+	
 	private Vector2f cam = new Vector2f( 0, 0);
 	
 	
@@ -60,9 +61,10 @@ public class PlayState extends BasicGameState {
 
     public void init( GameContainer gc, StateBasedGame sbg) throws SlickException {
     	resManag = new RessourceManager();
-    	 mainMap = new TiledMap("map/level.tmx");
+    	 mainLevel = new Level();
+    	 mainLevel.create( "Hamlet, Act 3, Scene 1", "To be, or not to be, that is the question: Whether tis Nobler in the mind to suffer The Slings and Arrows of outrageous Fortune, Or to take Arms against a Sea of troubles,");
     	 
-    	 player = new Player( mainMap, new Vector2f( 400, 100));
+    	 player = new Player( new Vector2f( 400, 100));
     	 
     	 player.itSdangerousToGoAloneTakeThis( new MachineGun( "Sasha"), 0);
     	 player.itSdangerousToGoAloneTakeThis( new Boomerang( "Bro-omerang"), 1);
@@ -76,7 +78,7 @@ public class PlayState extends BasicGameState {
  
     public void render( GameContainer gc, StateBasedGame sb, Graphics gr) throws SlickException {
     	gr.setBackground( Color.gray);
-		mainMap.render( 0, 0);
+    	mainLevel.render( gc, sb, gr);
 		
     	for( int i = 0; i < entityList.size();i++){
     		entityList.get( i).render( gc, sb, gr);
@@ -119,6 +121,10 @@ public class PlayState extends BasicGameState {
     
     public Player getPlayer(){
     	return player;
+    }
+    
+    public Vector2f getCam(){
+    	return cam;
     }
     
     public ArrayList<Sprite> getEntities(){

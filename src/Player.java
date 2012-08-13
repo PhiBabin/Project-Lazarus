@@ -29,72 +29,48 @@ import org.newdawn.slick.tiled.TiledMap;
  */
 public class Player extends Sprite {
 	
-	/**
-	 * TiledSet of the world
-	 */
-	private TiledMap world;
-	
-	/**
-	 * TiledSet of the mainMap
-	 */
+	/**  TiledSet of the mainMap */
 	private Animation arms;
 	
-	/**
-	 * Velocity of the Player
-	 */
+	/** Velocity of the Player  */
 	private Vector2f v = new Vector2f( 0, 0);
 	
-	/**
-	 * New position of the Player
-	 */
+	/** New position of the Player */
 	private Vector2f pn = new Vector2f( 0, 0);
 
-	/**
-	 * True if can jump
-	 */
+	/** True if can jump */
 	private boolean jumpLock = false;
 	
-	/**
-	 * Hp of the player
-	 */
+	/** Hp of the player */
 	private int hp = 20;
 	
-	/**
-	 * Armour of the player
-	 */
+	/** Armour of the player */
 	private int armour = 0;
 	
-	/**
-	 * Inventory of the player
-	 */
+	/** Inventory of the player */
 	private Item[] inventory = new Item[3];
 	
-	/**
-	 * Equipped item
-	 */
+	/** Equipped item */
 	private int equiped = 0;
 	
 	
 	
 	/**
 	 * Constructor of the Player
-	 * @param world	mainMap tileset
 	 */
-	public Player( TiledMap world) {
+	public Player() {
 		super( RessourceManager.player);
-		this.world = world; 
 		this.arms = RessourceManager.arms;
 	}
 	
 	/**
 	 * Constructor of the Player
-	 * @param world	mainMap tileset
 	 * @param nX Player X default position
 	 * @param nY Player Y default position
 	 */
-	public Player( TiledMap world, Vector2f p) {
+	public Player( Vector2f p) {
 		super( RessourceManager.player, p);
-		this.world = world; 
+		this.world = playstate.mainMap; 
 		this.arms = RessourceManager.arms;
 	}
 	
@@ -105,13 +81,14 @@ public class Player extends Sprite {
 	 * @return isSolid boolean 
 	 */
 	public boolean isSolidBlock(float x, float y){
-		int tX = (int)(x) / world.getTileWidth();
-		int tY = (int)(y) / world.getTileHeight();
-		
-		if(tX >= 0 && tX < world.getWidth() && tY >= 0 && tY < world.getHeight())
-			return world.getTileProperty( world.getTileId( tX, tY, 0), "solid", "0") == "0";
-		else 
-			return false;
+		return playstate.mainLevel.isSolid( x, y);
+//		int tX = (int)(x) / world.getTileWidth();
+//		int tY = (int)(y) / world.getTileHeight();
+//		
+//		if(tX >= 0 && tX < world.getWidth() && tY >= 0 && tY < world.getHeight())
+//			return world.getTileProperty( world.getTileId( tX, tY, 0), "solid", "0") == "0";
+//		else 
+//			return false;
 	}
 
 	/**
