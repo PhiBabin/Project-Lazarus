@@ -20,6 +20,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -49,6 +50,9 @@ public class PlayState extends BasicGameState {
 	
 	private Vector2f cam = new Vector2f( 0, 0);
 	
+	private Rectangle camRect;
+	
+	private Rectangle moveableRect;
 	
 	int stateID=-1;
 	
@@ -58,6 +62,8 @@ public class PlayState extends BasicGameState {
 	 */
 	public PlayState( int stateID){
 		this.stateID = stateID;
+		camRect = new Rectangle( 0, 0, CONST.SCREEN_WIDTH, CONST.SCREEN_HEIGHT);
+		moveableRect = new Rectangle( 0, 0, camRect.getWidth() /2,camRect.getHeight() /2);
 	}
 	
 
@@ -75,11 +81,14 @@ public class PlayState extends BasicGameState {
     	 entityList = new ArrayList<Sprite>();
     	 
     	 Item.playstate = this;
+    	 Level.playstate = this;
     	 Sprite.playstate = this;
     }
  
     public void render( GameContainer gc, StateBasedGame sb, Graphics gr) throws SlickException {
     	gr.setBackground( Color.gray);
+    	
+    	
     	mainLevel.render( gc, sb, gr);
 		
     	for( int i = 0; i < entityList.size();i++){
@@ -90,10 +99,22 @@ public class PlayState extends BasicGameState {
     	
 		player.render( gc, sb, gr);
 		
+		gr.setLineWidth( 3.f);
+		gr.setColor( Color.orange);
+		//gr.draw( camRect);
+		gr.setColor( Color.green);
+		//gr.draw( moveableRect);
+		gr.setColor( Color.white);
+		
+		System.out.println( "cam: " + cam.x + " " + cam.y);
+		System.out.println( "Player: " + player.getX() + " " + player.getY());
+		
 		gr.drawString( "Velocity Y - " + player.getV().y * 100, 5.f, 50.f);
 		gr.drawString( "Triangle - ( " + (pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2) + "," + (pCursor.y - player.getY()) + ")", 5.f, 90.f);
 		gr.drawString( "JUMP - " + player.isJumpLock(), 5.f, 105.f);
-		gr.drawString( "Bullet - " + entityList.size(), 5.f, 120.f);
+		gr.drawString( "Solid - " + mainLevel.isSolid( pCursor), 5.f, 120.f);
+		gr.drawString( "Bullet - " + entityList.size(), 5.f, 135.f);
+	
 		//gr.drawString( "Angle new - " + pCursor.sub( player.getPosition()).getTheta(), 5.f, 135.f);
 		//gr.drawString( "Angle - " + Math.atan( ( pCursor.y - player.getY()) / ( pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2)) * 180 / Math.PI, 5.f, 150.f);
 		
@@ -105,6 +126,23 @@ public class PlayState extends BasicGameState {
 
     	pCursor.x = input.getMouseX() + cam.x;
     	pCursor.y = input.getMouseY() + cam.y;
+    	
+//    	moveableRect.setCenterX( player.getX());
+//    	moveableRect.setCenterY( player.getY());
+    	if( player.getX() <= moveableRect.getX())
+    		moveableRect.setX(player.getX());
+    	if( player.getX() + CONST.PLAYER_WIDTH > moveableRect.getMaxX())
+    		moveableRect.setX( player.getX() + CONST.PLAYER_WIDTH - moveableRect.getWidth());
+    	if( player.getY() <= moveableRect.getY())
+    		moveableRect.setY(player.getY());
+    	if( player.getY() + CONST.PLAYER_HEIGHT > moveableRect.getMaxY())
+    		moveableRect.setY( player.getY() + CONST.PLAYER_HEIGHT - moveableRect.getHeight());
+    	
+    	camRect.setCenterX( moveableRect.getCenterX());
+    	camRect.setCenterY( moveableRect.getCenterY());
+    	cam.x = camRect.getX();
+    	cam.y = camRect.getY();
+    	
     	
     	player.update(gc, sb, delta);
     	
@@ -127,6 +165,10 @@ public class PlayState extends BasicGameState {
     
     public Vector2f getCam(){
     	return cam;
+    }
+    
+    public Rectangle getCamRect(){
+    	return camRect;
     }
     
     public ArrayList<Sprite> getEntities(){

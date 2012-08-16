@@ -55,6 +55,8 @@ public class Player extends Sprite {
 	/** Equipped item */
 	private int equiped = 0;
 	
+	private int nbrSouls = 0;
+	
 	
 	/**
 	 * Constructor of the Player
@@ -203,13 +205,12 @@ public class Player extends Sprite {
     		inventory[equiped].update( gc, sb, delta);
     	
     	doWorldCollision();
-	//	System.out.println("p: " + p.x + " " + p.y + " pn: " + pn.x + " " + pn.y);
     }
 
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
     	Input input = gc.getInput();
     	Vector2f pCursor = new Vector2f( input.getMouseX(), input.getMouseY());
-    	gr.drawAnimation( aniSprite, p.x, p.y);
+    	gr.drawAnimation( aniSprite, p.x - playstate.getCam().x, p.y - playstate.getCam().y);
 
     	if( inventory[equiped] != null)
     		inventory[equiped].render( gc, sb, gr);
@@ -241,6 +242,10 @@ public class Player extends Sprite {
 		return equiped;
 	}
 
+	public int getSouls() {
+		return nbrSouls;
+	}
+
 	public boolean isJumpLock() {
 		return jumpLock;
 	}
@@ -260,5 +265,9 @@ public class Player extends Sprite {
 
 	public void setArmour(int armour) {
 		this.armour = armour;
+	}
+
+	public void setNbrSouls(int nbrSouls) {
+		this.nbrSouls = nbrSouls;
 	}
 }

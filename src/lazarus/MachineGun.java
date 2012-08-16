@@ -38,24 +38,27 @@ public class MachineGun extends Item {
 	 * @param gr Graphics
 	 */
 	public void render( GameContainer gc, StateBasedGame sb, Graphics gr){
+		Vector2f cam = playstate.getCam();
     	Input input = gc.getInput();
-    	Vector2f pCursor = new Vector2f( input.getMouseX(), input.getMouseY());
+    	Vector2f pCursor = new Vector2f( input.getMouseX() + cam.x , input.getMouseY() + cam.y);
     	
-    	Vector2f pPlayer = playstate.getPlayer().getPosition();
+    	Vector2f pPlayer = new Vector2f( 
+    			playstate.getPlayer().getPosition().x,
+    			playstate.getPlayer().getPosition().y);
     	
     	armAngle = (float)( Math.atan( ( pCursor.y - pPlayer.y) / ( pCursor.x - pPlayer.x - CONST.PLAYER_WIDTH / 2 - 0.00001)) * 180 / Math.PI);
     	
     	if( pCursor.x > pPlayer.x + CONST.PLAYER_WIDTH / 2){
     		arms.setCurrentFrame(0);
-	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, armAngle);
-	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - 4, pPlayer.y - 7);
-	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, -armAngle);
+	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, armAngle);
+	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - 4 - cam.x, pPlayer.y - 7 - cam.y);
+	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, -armAngle);
 	    }
     	else{
     		arms.setCurrentFrame(1);
-	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, armAngle);
-	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - arms.getWidth() + 4, pPlayer.y - 7);
-	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, -armAngle);
+	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, armAngle);
+	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - arms.getWidth() + 4 - cam.x, pPlayer.y - 7 - cam.y);
+	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, -armAngle);
     	}
 	}
 	
@@ -67,7 +70,7 @@ public class MachineGun extends Item {
 	 */
     public void update( GameContainer gc, StateBasedGame sb, int delta){
     	Input input = gc.getInput();
-    	Vector2f pCursor = new Vector2f( input.getMouseX(), input.getMouseY());
+    	Vector2f pCursor = new Vector2f( input.getMouseX() + playstate.getCam().x , input.getMouseY() +  playstate.getCam().y);
     	
     	Vector2f pPlayer = playstate.getPlayer().getPosition();
 

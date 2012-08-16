@@ -37,8 +37,8 @@ public class RessourceManager {
 				
 				imgArms = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_MG.png"), "img/arm_MG.png", false), 17, 15);
 				imgBullet = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/bullet.png"), "img/bullet.png", false), 5, 5);
-				imgArms = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_test.png"), "img/arm_test.png", false), 9, 15);
-				imgArms = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/boomerang.png"), "img/boomerang.png", false), 14, 7);
+				imgArmsB = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_test.png"), "img/arm_test.png", false), 9, 15);
+				imgBoomerang = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/boomerang.png"), "img/boomerang.png", false), 14, 7);
 				
 				tilesetImg = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/tileset.png"), "img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
 			}
@@ -53,6 +53,7 @@ public class RessourceManager {
 				tilesetImg = new SpriteSheet( new Image("img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
 			}
 			player = new Animation( imgPlayer, 100000);
+			player.stop();
 			arms = new Animation( imgArms, 100000000);
 			arms.stop();
 			bullet = new Animation( imgBullet, 10000000);

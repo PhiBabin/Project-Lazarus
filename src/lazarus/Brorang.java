@@ -14,6 +14,7 @@ package lazarus;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -60,9 +61,9 @@ public class Brorang extends Sprite {
 	 * @param gr Graphics
 	 */
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
-    	gr.rotate( p.x + 6, p.y + 3, rotation);
-		aniSprite.draw( p.x, p.y);
-    	gr.rotate( p.x + 6, p.y + 3, -rotation);
+    	gr.rotate( p.x + 6 - playstate.getCam().x, p.y + 3 - playstate.getCam().y, rotation);
+		aniSprite.draw( p.x - playstate.getCam().x, p.y - playstate.getCam().y);
+    	gr.rotate( p.x + 6 - playstate.getCam().x, p.y + 3 - playstate.getCam().y, -rotation);
 	}
 	
 	/**
@@ -80,7 +81,9 @@ public class Brorang extends Sprite {
 	    	
 	    	distance += Math.sqrt( v.x * delta * v.x * delta + v.y * delta * v.y * delta);
 	    	
-	    	if( distance > CONST.BOOMERANG_LENTH)
+	    	Rectangle rec = new Rectangle( p.x + 3, p.y + 1, 8, 5);
+	    	
+	    	if( distance > CONST.BOOMERANG_LENTH || playstate.mainLevel.isSolid( rec))
 	    		comeback = true;
     	}
     	else{

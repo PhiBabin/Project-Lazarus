@@ -33,6 +33,8 @@ public class Level {
 		}
 	}
 	
+	public static PlayState playstate;
+	
 	private String txt, title;
 	
 	private SpriteSheet tilesetImg;
@@ -68,9 +70,21 @@ public class Level {
 		return isSolid( new Vector2f( x, y));
 	}
 	
+	public boolean isSolid( Rectangle rec){
+		for( Tile drawed : level){
+			if( drawed.r.intersects( rec))
+				return true;
+		}
+		return false;
+	}
+	
 	public boolean isSolid( Vector2f b){
 		for( Tile drawed : level){
-			if( drawed.r.contains( b.x, b.y))
+			//if( drawed.r.contains( b.x, b.y))
+			if( b.x >= drawed.r.getX() &&
+				b.y >= drawed.r.getY() &&
+				b.x < drawed.r.getX() + drawed.r.getWidth() &&
+				b.y < drawed.r.getY() + drawed.r.getHeight())
 					return true;
 		}
 		return false;
@@ -95,7 +109,7 @@ public class Level {
 		for( Tile drawed : level){
     		if( drawed.r.getX() >= 0 && drawed.r.getY() >= 0 ){
     			//&& drawed.p.y < getHeightInTiles() && drawed.p.x < getWidthInTiles()){
-        		gr.drawImage( tiles.get( drawed.tileId - 1), drawed.r.getX(), drawed.r.getY());
+        		gr.drawImage( tiles.get( drawed.tileId - 1), drawed.r.getX() - playstate.getCam().x, drawed.r.getY() - playstate.getCam().y);
     		}
 		}
 	

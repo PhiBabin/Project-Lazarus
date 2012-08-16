@@ -38,8 +38,9 @@ public class Boomerang extends Item {
 	 * @param gr Graphics
 	 */
 	public void render( GameContainer gc, StateBasedGame sb, Graphics gr){
+		Vector2f cam = playstate.getCam();
     	Input input = gc.getInput();
-    	Vector2f pCursor = new Vector2f( input.getMouseX(), input.getMouseY());
+    	Vector2f pCursor = new Vector2f( input.getMouseX() + cam.x , input.getMouseY() + cam.y);
     	
     	Vector2f pPlayer = playstate.getPlayer().getPosition();
     	
@@ -47,23 +48,23 @@ public class Boomerang extends Item {
     	
     	if( pCursor.x > pPlayer.x + CONST.PLAYER_WIDTH / 2){
     		arms.setCurrentFrame(0);
-	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, armAngle);
+	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, armAngle);
 	    	
 	    	if( inHand)
-	    		gr.drawAnimation( theBrorang.getAnimation(), pPlayer.x + CONST.PLAYER_WIDTH / 2 - 1, pPlayer.y + 2);
-	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - 4, pPlayer.y - 7);
-	    	
-	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, -armAngle);
+	    		gr.drawAnimation( theBrorang.getAnimation(), pPlayer.x + CONST.PLAYER_WIDTH / 2 - 1 - cam.x, pPlayer.y + 2 - cam.y);
+	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - 4 - cam.x, pPlayer.y - 7 - cam.y);
+
+	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, -armAngle);
 	    }
     	else{
     		arms.setCurrentFrame(1);
-	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, armAngle);
+	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, armAngle);
 	    	
 	    	if( inHand)
-	    		gr.drawAnimation( theBrorang.getAnimation(), pPlayer.x + CONST.PLAYER_WIDTH / 2 - 13, pPlayer.y + 2);
-	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - arms.getWidth() + 4, pPlayer.y - 7);
-	    	
-	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2, pPlayer.y, -armAngle);
+	    		gr.drawAnimation( theBrorang.getAnimation(), pPlayer.x + CONST.PLAYER_WIDTH / 2 - 13 - cam.x, pPlayer.y + 2 - cam.y);
+	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - arms.getWidth() + 4 - cam.x, pPlayer.y - 7 - cam.y);
+
+	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, -armAngle);
     	}
     	
     	if( !inHand){
@@ -79,8 +80,8 @@ public class Boomerang extends Item {
 	 */
     public void update( GameContainer gc, StateBasedGame sb, int delta){
     	Input input = gc.getInput();
-    	Vector2f pCursor = new Vector2f( input.getMouseX(), input.getMouseY());
-    	
+    	Vector2f pCursor = new Vector2f( input.getMouseX() + playstate.getCam().x , input.getMouseY() +  playstate.getCam().y);
+
     	Vector2f pPlayer = playstate.getPlayer().getPosition();
     	
 		if( input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON) && inHand){
@@ -104,7 +105,7 @@ public class Boomerang extends Item {
     	if( !inHand){
     		theBrorang.update( gc, sb, delta);
     		Vector2f bG = new Vector2f( theBrorang.getX() - pPlayer.x - CONST.PLAYER_WIDTH / 2, theBrorang.getY() - pPlayer.y);
-	    	if( bG.length() < 5.f && theBrorang.isComeback()){
+	    	if( bG.length() < 2.f && theBrorang.isComeback()){
 	    		inHand = true;
 	    	}
     	}

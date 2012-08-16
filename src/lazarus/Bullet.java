@@ -53,7 +53,7 @@ public class Bullet extends Sprite {
 	 * @param gr Graphics
 	 */
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
-		aniSprite.draw( p.x, p.y);
+		aniSprite.draw( p.x - playstate.getCam().x, p.y - playstate.getCam().y);
 	}
 	
 	/**
@@ -65,6 +65,9 @@ public class Bullet extends Sprite {
     public void update(GameContainer gc, StateBasedGame sb, int delta){
     	p.x += v.x * delta;
     	p.y += v.y * delta;
-    	v.y += CONST.BULLET_MASS * CONST.G_FORCE * delta - 0.01 * Math.random();
+    	
+    	if( playstate.mainLevel.isSolid( p))
+    		delete = true;
+    //	v.y += CONST.BULLET_MASS * CONST.G_FORCE * delta - 0.01 * Math.random();
     }
 }
