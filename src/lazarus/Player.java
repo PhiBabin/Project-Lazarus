@@ -178,14 +178,14 @@ public class Player extends Sprite {
     		v.x *= 0.6;
     	}
     	if( l && !r){
-    		v.x = -0.1f;
+    		v.x = -CONST.HORRIZONTAL_VELOCITY;
     	}
     	if( !l && r){
-     		v.x = 0.1f;
+     		v.x = CONST.HORRIZONTAL_VELOCITY;
 		}
     	
     	if( input.isKeyDown( Input.KEY_RETURN)){
-     		setPosition( 500f, 10f);
+     		setPosition( p.x, 10f);
 		}
     	
     	if( input.isKeyDown( Input.KEY_W) && jumpLock){

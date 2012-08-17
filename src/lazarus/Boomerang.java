@@ -51,8 +51,8 @@ public class Boomerang extends Item {
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, armAngle);
 	    	
 	    	if( inHand)
-	    		gr.drawAnimation( theBrorang.getAnimation(), pPlayer.x + CONST.PLAYER_WIDTH / 2 - 1 - cam.x, pPlayer.y + 2 - cam.y);
-	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - 4 - cam.x, pPlayer.y - 7 - cam.y);
+	    		gr.drawAnimation( theBrorang.getAnimation(), pPlayer.x + CONST.PLAYER_WIDTH / 2 - 2 - cam.x, pPlayer.y + 4 - cam.y);
+	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - 8 - cam.x, pPlayer.y - 14 - cam.y);
 
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, -armAngle);
 	    }
@@ -61,8 +61,8 @@ public class Boomerang extends Item {
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, armAngle);
 	    	
 	    	if( inHand)
-	    		gr.drawAnimation( theBrorang.getAnimation(), pPlayer.x + CONST.PLAYER_WIDTH / 2 - 13 - cam.x, pPlayer.y + 2 - cam.y);
-	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - arms.getWidth() + 4 - cam.x, pPlayer.y - 7 - cam.y);
+	    		gr.drawAnimation( theBrorang.getAnimation(), pPlayer.x + CONST.PLAYER_WIDTH / 2 - 26 - cam.x, pPlayer.y + 4 - cam.y);
+	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - arms.getWidth() + 8 - cam.x, pPlayer.y - 14 - cam.y);
 
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, -armAngle);
     	}
@@ -105,7 +105,7 @@ public class Boomerang extends Item {
     	if( !inHand){
     		theBrorang.update( gc, sb, delta);
     		Vector2f bG = new Vector2f( theBrorang.getX() - pPlayer.x - CONST.PLAYER_WIDTH / 2, theBrorang.getY() - pPlayer.y);
-	    	if( bG.length() < 2.f && theBrorang.isComeback()){
+	    	if( bG.length() < 5.f && theBrorang.isComeback()){
 	    		inHand = true;
 	    	}
     	}

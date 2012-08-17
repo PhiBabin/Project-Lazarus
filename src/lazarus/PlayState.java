@@ -63,7 +63,7 @@ public class PlayState extends BasicGameState {
 	public PlayState( int stateID){
 		this.stateID = stateID;
 		camRect = new Rectangle( 0, 0, CONST.SCREEN_WIDTH, CONST.SCREEN_HEIGHT);
-		moveableRect = new Rectangle( 0, 0, camRect.getWidth() /2,camRect.getHeight() /2);
+		moveableRect = new Rectangle( 0, 0, camRect.getWidth() /4,camRect.getHeight() /4);
 	}
 	
 
@@ -140,8 +140,8 @@ public class PlayState extends BasicGameState {
     	
     	camRect.setCenterX( moveableRect.getCenterX());
     	camRect.setCenterY( moveableRect.getCenterY());
-    	cam.x = camRect.getX();
-    	cam.y = camRect.getY();
+    	cam.x = Math.round( camRect.getX());
+    	cam.y = Math.round( camRect.getY());
     	
     	
     	player.update(gc, sb, delta);

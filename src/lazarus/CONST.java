@@ -19,25 +19,26 @@ public class CONST {
 	
 	/** World parameter */
 	public static final double G_FORCE = 0.000098; // Px/ms^2
-	public static final double JUMP_FORCE = 0.4;
-	public static final float MAX_VELOCITY = 0.6f;
+	public static final double JUMP_FORCE = 0.8;
+	public static final float MAX_VELOCITY = 0.8f;
+	public static final float HORRIZONTAL_VELOCITY = 0.2f;
 	
 	/** Player parameter */
-	public static final double PLAYER_MASS = 10;
-	public static final int PLAYER_WIDTH = 9;
-	public static final int PLAYER_HEIGHT = 21;
+	public static final double PLAYER_MASS = 20;
+	public static final int PLAYER_WIDTH = 18;
+	public static final int PLAYER_HEIGHT = 30;
 	
-	public static final float BULLET_VELOCITY = 0.2f;
+	public static final float BULLET_VELOCITY = 0.4f;
 	public static final double BULLET_MASS = 5;
-	public static final float BOOMERANG_VELOCITY_IN = 0.2f;
-	public static final float BOOMERANG_VELOCITY_OUT = 0.25f;
-	public static final int BOOMERANG_LENTH = 160;
-	public static final float BOOMERANG_ROTATION_VELOCITY_IN = 0.6f;
-	public static final float BOOMERANG_ROTATION_VELOCITY_OUT = 0.8f;
+	public static final float BOOMERANG_VELOCITY_IN = 0.4f;
+	public static final float BOOMERANG_VELOCITY_OUT = 0.5f;
+	public static final int BOOMERANG_LENTH = 320;
+	public static final float BOOMERANG_ROTATION_VELOCITY_IN = 1.2f;
+	public static final float BOOMERANG_ROTATION_VELOCITY_OUT = 1.61f;
 	
 	
 	/** Map parameter */
-	public static final int TILE_WIDTH = 10;
-	public static final int TILE_HEIGHT = 9;
+	public static final int TILE_WIDTH = 20;
+	public static final int TILE_HEIGHT = 18;
 }
 

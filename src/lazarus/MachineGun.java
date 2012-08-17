@@ -51,13 +51,13 @@ public class MachineGun extends Item {
     	if( pCursor.x > pPlayer.x + CONST.PLAYER_WIDTH / 2){
     		arms.setCurrentFrame(0);
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, armAngle);
-	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - 4 - cam.x, pPlayer.y - 7 - cam.y);
+	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - 8 - cam.x, pPlayer.y - 14 - cam.y);
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, -armAngle);
 	    }
     	else{
     		arms.setCurrentFrame(1);
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, armAngle);
-	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - arms.getWidth() + 4 - cam.x, pPlayer.y - 7 - cam.y);
+	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - arms.getWidth() + 8 - cam.x, pPlayer.y - 14 - cam.y);
 	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, -armAngle);
     	}
 	}
@@ -79,7 +79,7 @@ public class MachineGun extends Item {
 			Vector2f bG = new Vector2f(  pCursor.x - pPlayer.x - CONST.PLAYER_WIDTH / 2, pCursor.y - pPlayer.y);
 			double h = Math.sqrt( bG.x * bG.x + bG.y * bG.y);
 
-			Vector2f bP = new Vector2f( pPlayer.x + CONST.PLAYER_WIDTH / 2 - 1, pPlayer.y);
+			Vector2f bP = new Vector2f( pPlayer.x + CONST.PLAYER_WIDTH / 2 - 2, pPlayer.y);
 			Vector2f bV = new Vector2f(
 					(float) ( bG.x / h) * CONST.BULLET_VELOCITY,
 					(float) ( bG.y / h) * CONST.BULLET_VELOCITY);
@@ -87,9 +87,9 @@ public class MachineGun extends Item {
 			
 
 			if( pCursor.x > pPlayer.x + CONST.PLAYER_WIDTH / 2)
-				bP2 = new Vector2f( bP.x - 3 * bG.y / bG.length(), bP.y + 3 * bG.x / bG.length());
+				bP2 = new Vector2f( bP.x - 5 * bG.y / bG.length(), bP.y + 5 * bG.x / bG.length());
 			else
-				bP2 = new Vector2f( bP.x + 3 * bG.y / bG.length(), bP.y - 3 * bG.x / bG.length());
+				bP2 = new Vector2f( bP.x + 8 * bG.y / bG.length(), bP.y - 8 * bG.x / bG.length());
 			
 			playstate.addEntity( new Bullet( RessourceManager.bullet, bP2, bV));
 			

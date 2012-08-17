@@ -60,9 +60,9 @@ public class Level {
 		
 		int yMod = 26;
 		for( int i = 0; i < txt.length(); i++){
-			level.add( new Tile( new Vector2f( i * CONST.TILE_WIDTH, yMod * CONST.TILE_HEIGHT), (short) 2));
 			if( txt.charAt( i) == ' ')
 				yMod += rand.nextInt( 5) - 2;
+			level.add( new Tile( new Vector2f( i * CONST.TILE_WIDTH, yMod * CONST.TILE_HEIGHT), (short) 2));
 		}
 	}
 

@@ -61,9 +61,9 @@ public class Brorang extends Sprite {
 	 * @param gr Graphics
 	 */
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
-    	gr.rotate( p.x + 6 - playstate.getCam().x, p.y + 3 - playstate.getCam().y, rotation);
+    	gr.rotate( p.x + 12 - playstate.getCam().x, p.y + 6 - playstate.getCam().y, rotation);
 		aniSprite.draw( p.x - playstate.getCam().x, p.y - playstate.getCam().y);
-    	gr.rotate( p.x + 6 - playstate.getCam().x, p.y + 3 - playstate.getCam().y, -rotation);
+    	gr.rotate( p.x + 12 - playstate.getCam().x, p.y + 6 - playstate.getCam().y, -rotation);
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class Brorang extends Sprite {
 	    	
 	    	distance += Math.sqrt( v.x * delta * v.x * delta + v.y * delta * v.y * delta);
 	    	
-	    	Rectangle rec = new Rectangle( p.x + 3, p.y + 1, 8, 5);
+	    	Rectangle rec = new Rectangle( p.x + 4, p.y + 2, 16, 10);
 	    	
 	    	if( distance > CONST.BOOMERANG_LENTH || playstate.mainLevel.isSolid( rec))
 	    		comeback = true;

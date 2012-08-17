@@ -33,7 +33,7 @@ public class RessourceManager {
 	public void loadImage(){
 		try {
 			if( CONST.APPLET){
-				imgPlayer = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/player.png"), "img/player.png", false), 9, 21);
+				imgPlayer = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/player.png"), "img/player.png", false), CONST.PLAYER_WIDTH,  CONST.PLAYER_HEIGHT);
 				
 				imgArms = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_MG.png"), "img/arm_MG.png", false), 17, 15);
 				imgBullet = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/bullet.png"), "img/bullet.png", false), 5, 5);
@@ -43,12 +43,12 @@ public class RessourceManager {
 				tilesetImg = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/tileset.png"), "img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
 			}
 			else {
-				imgPlayer = new SpriteSheet( new Image("img/player.png", false), 9, 21);
+				imgPlayer = new SpriteSheet( new Image("img/player.png", false), CONST.PLAYER_WIDTH,  CONST.PLAYER_HEIGHT);
 				
-				imgArms = new SpriteSheet( new Image("img/arm_MG.png", false), 17, 15);
-				imgBullet = new SpriteSheet( new Image("img/bullet.png", false), 5, 5);
-				imgArmsB = new SpriteSheet( new Image("img/arm_test.png", false), 9, 15);
-				imgBoomerang = new SpriteSheet( new Image("img/boomerang.png", false), 14, 7);
+				imgArms = new SpriteSheet( new Image("img/arm_MG.png", false), 34, 30);
+				imgBullet = new SpriteSheet( new Image("img/bullet.png", false), 10, 10);
+				imgArmsB = new SpriteSheet( new Image("img/arm_test.png", false), 18, 30);
+				imgBoomerang = new SpriteSheet( new Image("img/boomerang.png", false), 28, 14);
 				
 				tilesetImg = new SpriteSheet( new Image("img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
 			}
