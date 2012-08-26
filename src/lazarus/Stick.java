@@ -25,7 +25,7 @@ public class Stick extends Item {
 	Stick( String name){
 		super( name);
 		icon = RessourceManager.arms.getImage( 0);
-		arms = RessourceManager.arms_b;
+		arms = RessourceManager.arms_m;
 	}
 	
 	/**
@@ -44,23 +44,20 @@ public class Stick extends Item {
     	
 		if( input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON) && cooldown >= 100){
 			Vector2f bG = new Vector2f(  pCursor.x - pPlayer.x - CONST.PLAYER_WIDTH / 2, pCursor.y - pPlayer.y);
-			double h = Math.sqrt( bG.x * bG.x + bG.y * bG.y);
 			
 			Vector2f bP = new Vector2f( 
-					pPlayer.x + CONST.PLAYER_WIDTH / 2 - RessourceManager.boomerang.getWidth()/2,
-					pPlayer.y - RessourceManager.boomerang.getHeight()/2);
+					pPlayer.x + CONST.PLAYER_WIDTH / 2,
+					pPlayer.y);
 			Vector2f bV =  new Vector2f(
-					(float) ( bG.x / h) * CONST.MAGIC_VELOCITY,
-					(float) ( bG.y / h) * CONST.MAGIC_VELOCITY);
-			Vector2f bP2 = null;
+					(float) ( bG.x / bG.length()) * CONST.MAGIC_VELOCITY,
+					(float) ( bG.y / bG.length()) * CONST.MAGIC_VELOCITY);
 			
-
-			if( pCursor.x > pPlayer.x + CONST.PLAYER_WIDTH / 2)
-				bP2 = new Vector2f( bP.x - 5 * bG.y / bG.length(), bP.y + 5 * bG.x / bG.length());
-			else
-				bP2 = new Vector2f( bP.x + 8 * bG.y / bG.length(), bP.y - 8 * bG.x / bG.length());
+			Vector2f pStick = new Vector2f( 15, 0);
+			Vector2f pBall = new Vector2f(
+		    	(float) ( bP.x + Math.cos( (pStick.getTheta() + bG.getTheta()) * Math.PI/180) * pStick.length()) - RessourceManager.magic.getWidth()/2,
+		    	(float) ( bP.y + Math.sin( (pStick.getTheta() + bG.getTheta()) * Math.PI/180) * pStick.length()) - RessourceManager.magic.getHeight()/2);
 			
-			playstate.addEntity( new Magic( RessourceManager.magic, bP2, bV));
+			playstate.addEntity( new Magic( RessourceManager.magic, pBall, bV));
 			
 			cooldown = 0;
 		}

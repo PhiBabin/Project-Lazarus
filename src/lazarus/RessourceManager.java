@@ -22,9 +22,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class RessourceManager {
-	public static Animation player = null, arms = null, bullet = null, arms_b = null, boomerang = null, magic = null;
+	public static Animation player = null, arms = null, bullet = null, arms_b = null, arms_m = null, boomerang = null, magic = null;
 	public static SpriteSheet tilesetImg = null;
-	public SpriteSheet imgPlayer = null, imgArms = null, imgBullet = null, imgArmsB = null, imgBoomerang = null, imgMagic = null;
+	public SpriteSheet imgPlayer = null, imgArms = null, imgBullet = null, imgArmsB = null, imgArmsM = null, imgBoomerang = null, imgMagic = null;
 	
 	public RessourceManager(){
 		loadImage();
@@ -39,6 +39,8 @@ public class RessourceManager {
 				imgBullet = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/bullet.png"), "img/bullet.png", false), 5, 5);
 				imgArmsB = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_test.png"), "img/arm_test.png", false), 9, 15);
 				imgBoomerang = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/boomerang.png"), "img/boomerang.png", false), 14, 7);
+				imgMagic = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/magic.png"), "img/magic.png", false), 15, 15);
+				imgArmsM = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_magic.png"), "img/arm_magic.png", false), 25, 30);
 				
 				tilesetImg = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/tileset.png"), "img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
 			}
@@ -50,6 +52,7 @@ public class RessourceManager {
 				imgArmsB = new SpriteSheet( new Image("img/arm_test.png", false), 18, 30);
 				imgBoomerang = new SpriteSheet( new Image("img/boomerang.png", false), 28, 14);
 				imgMagic = new SpriteSheet( new Image("img/magic.png", false), 15, 15);
+				imgArmsM = new SpriteSheet( new Image("img/arm_magic.png", false), 25, 30);
 				
 				tilesetImg = new SpriteSheet( new Image("img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
 			}
@@ -61,6 +64,8 @@ public class RessourceManager {
 			bullet.stop();
 			arms_b = new Animation( imgArmsB, 100000000);
 			arms_b.stop();
+			arms_m = new Animation( imgArmsM, 100000000);
+			arms_m.stop();
 			boomerang = new Animation( imgBoomerang, 1000000);
 			boomerang.stop();
 			magic = new Animation( imgMagic, 1000000);
