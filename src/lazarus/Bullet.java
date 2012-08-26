@@ -14,6 +14,7 @@ package lazarus;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -29,6 +30,9 @@ public class Bullet extends Sprite {
 	
 	/** Velocity of the Bullet */
 	private Vector2f v = new Vector2f( 0, 0);
+	
+	/** TimeLaspe **/
+	private int time = 0;
 
 	public Bullet( Animation pSprite, Vector2f v) {
 		super( pSprite);
@@ -63,10 +67,15 @@ public class Bullet extends Sprite {
 	 * @param delta Time between frame
 	 */
     public void update(GameContainer gc, StateBasedGame sb, int delta){
+    	time += delta;
+    	
     	p.x += v.x * delta;
     	p.y += v.y * delta;
     	
-    	if( playstate.mainLevel.isSolid( p))
+
+    	Rectangle rec = new Rectangle( p.x, p.y, aniSprite.getWidth(), aniSprite.getHeight());
+    	
+    	if( playstate.mainLevel.isSolid( rec) || time > 3000)
     		delete = true;
     //	v.y += CONST.BULLET_MASS * CONST.G_FORCE * delta - 0.01 * Math.random();
     }

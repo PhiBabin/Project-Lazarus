@@ -76,7 +76,8 @@ public class PlayState extends BasicGameState {
     	 
     	 player.itSdangerousToGoAloneTakeThis( new MachineGun( "Sasha"), 0);
     	 player.itSdangerousToGoAloneTakeThis( new Boomerang( "Bro-omerang"), 1);
-    	 player.switchWeapon( 0);
+    	 player.itSdangerousToGoAloneTakeThis( new Stick( "ExplainThat!"), 2);
+    	 player.switchWeapon( 2);
     	 
     	 entityList = new ArrayList<Sprite>();
     	 
@@ -105,10 +106,8 @@ public class PlayState extends BasicGameState {
 		gr.setColor( Color.green);
 		//gr.draw( moveableRect);
 		gr.setColor( Color.white);
-		
-		System.out.println( "cam: " + cam.x + " " + cam.y);
-		System.out.println( "Player: " + player.getX() + " " + player.getY());
-		
+
+		gr.drawString( "Player "+ player.getHp() + "/100 ( " + player.getX() + ", " + player.getY() + ")", 5.f, 35.f);
 		gr.drawString( "Velocity Y - " + player.getV().y * 100, 5.f, 50.f);
 		gr.drawString( "Triangle - ( " + (pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2) + "," + (pCursor.y - player.getY()) + ")", 5.f, 90.f);
 		gr.drawString( "JUMP - " + player.isJumpLock(), 5.f, 105.f);

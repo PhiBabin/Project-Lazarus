@@ -22,9 +22,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class RessourceManager {
-	public static Animation player = null, arms = null, bullet = null, arms_b = null, boomerang = null;
+	public static Animation player = null, arms = null, bullet = null, arms_b = null, boomerang = null, magic = null;
 	public static SpriteSheet tilesetImg = null;
-	public SpriteSheet imgPlayer = null, imgArms = null, imgBullet = null, imgArmsB = null, imgBoomerang = null;
+	public SpriteSheet imgPlayer = null, imgArms = null, imgBullet = null, imgArmsB = null, imgBoomerang = null, imgMagic = null;
 	
 	public RessourceManager(){
 		loadImage();
@@ -49,6 +49,7 @@ public class RessourceManager {
 				imgBullet = new SpriteSheet( new Image("img/bullet.png", false), 10, 10);
 				imgArmsB = new SpriteSheet( new Image("img/arm_test.png", false), 18, 30);
 				imgBoomerang = new SpriteSheet( new Image("img/boomerang.png", false), 28, 14);
+				imgMagic = new SpriteSheet( new Image("img/magic.png", false), 15, 15);
 				
 				tilesetImg = new SpriteSheet( new Image("img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
 			}
@@ -62,6 +63,8 @@ public class RessourceManager {
 			arms_b.stop();
 			boomerang = new Animation( imgBoomerang, 1000000);
 			boomerang.stop();
+			magic = new Animation( imgMagic, 1000000);
+			magic.stop();
 			
 		} catch (SlickException e) {
 			e.printStackTrace();

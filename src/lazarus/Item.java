@@ -15,6 +15,7 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -59,7 +60,26 @@ public class Item {
 	 * @param gr Graphics
 	 */
 	public void render( GameContainer gc, StateBasedGame sb, Graphics gr){
-		
+		Vector2f cam = playstate.getCam();
+    	Input input = gc.getInput();
+    	Vector2f pCursor = new Vector2f( input.getMouseX() + cam.x , input.getMouseY() + cam.y);
+    	
+    	Vector2f pPlayer = playstate.getPlayer().getPosition();
+    	
+    	float armAngle = (float)( Math.atan( ( pCursor.y - pPlayer.y) / ( pCursor.x - pPlayer.x - CONST.PLAYER_WIDTH / 2 - 0.00001)) * 180 / Math.PI);
+    	
+    	if( pCursor.x > pPlayer.x + CONST.PLAYER_WIDTH / 2){
+    		arms.setCurrentFrame(0);
+	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, armAngle);
+	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - 8 - cam.x, pPlayer.y - 14 - cam.y);
+	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, -armAngle);
+	    }
+    	else{
+    		arms.setCurrentFrame(1);
+	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, armAngle);
+	    	gr.drawAnimation( arms, pPlayer.x + CONST.PLAYER_WIDTH / 2 - arms.getWidth() + 8 - cam.x, pPlayer.y - 14 - cam.y);
+	    	gr.rotate( pPlayer.x + CONST.PLAYER_WIDTH / 2 - cam.x, pPlayer.y - cam.y, -armAngle);
+    	}
 	}
 	
 	/**

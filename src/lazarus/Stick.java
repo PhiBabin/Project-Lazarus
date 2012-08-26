@@ -18,15 +18,14 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 
-public class MachineGun extends Item {
+public class Stick extends Item {
 	
-	private int lastBullet = 0;
+	private int cooldown = 0;
 	
-	
-	MachineGun( String name){
+	Stick( String name){
 		super( name);
 		icon = RessourceManager.arms.getImage( 0);
-		arms = RessourceManager.arms;
+		arms = RessourceManager.arms_b;
 	}
 	
 	/**
@@ -38,18 +37,21 @@ public class MachineGun extends Item {
     public void update( GameContainer gc, StateBasedGame sb, int delta){
     	Input input = gc.getInput();
     	Vector2f pCursor = new Vector2f( input.getMouseX() + playstate.getCam().x , input.getMouseY() +  playstate.getCam().y);
-    	
-    	Vector2f pPlayer = playstate.getPlayer().getPosition();
 
-    	lastBullet += delta;
-		if( input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON) && lastBullet >= 200){
+    	Vector2f pPlayer = playstate.getPlayer().getPosition();
+    	
+    	cooldown += delta;
+    	
+		if( input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON) && cooldown >= 100){
 			Vector2f bG = new Vector2f(  pCursor.x - pPlayer.x - CONST.PLAYER_WIDTH / 2, pCursor.y - pPlayer.y);
 			double h = Math.sqrt( bG.x * bG.x + bG.y * bG.y);
-
-			Vector2f bP = new Vector2f( pPlayer.x + CONST.PLAYER_WIDTH / 2 - 2, pPlayer.y);
-			Vector2f bV = new Vector2f(
-					(float) ( bG.x / h) * CONST.BULLET_VELOCITY,
-					(float) ( bG.y / h) * CONST.BULLET_VELOCITY);
+			
+			Vector2f bP = new Vector2f( 
+					pPlayer.x + CONST.PLAYER_WIDTH / 2 - RessourceManager.boomerang.getWidth()/2,
+					pPlayer.y - RessourceManager.boomerang.getHeight()/2);
+			Vector2f bV =  new Vector2f(
+					(float) ( bG.x / h) * CONST.MAGIC_VELOCITY,
+					(float) ( bG.y / h) * CONST.MAGIC_VELOCITY);
 			Vector2f bP2 = null;
 			
 
@@ -58,9 +60,11 @@ public class MachineGun extends Item {
 			else
 				bP2 = new Vector2f( bP.x + 8 * bG.y / bG.length(), bP.y - 8 * bG.x / bG.length());
 			
-			playstate.addEntity( new Bullet( RessourceManager.bullet, bP2, bV));
+			playstate.addEntity( new Magic( RessourceManager.magic, bP2, bV));
 			
-			lastBullet = 0;
+			cooldown = 0;
 		}
     }
+    
+    public void switchWeapon(){}
 }
