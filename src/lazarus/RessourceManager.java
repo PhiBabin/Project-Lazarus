@@ -34,53 +34,36 @@ public class RessourceManager {
 	
 	public void loadImage(){
 		try {
-			if( CONST.APPLET){
-				imgPlayer = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/player.png"), "img/player.png", false), CONST.PLAYER_WIDTH,  CONST.PLAYER_HEIGHT);
-				
-				imgArms = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_MG.png"), "img/arm_MG.png", false), 34, 30);
-				imgBullet = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/bullet.png"), "img/bullet.png", false), 10, 10);
-				imgArmsB = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_test.png"), "img/arm_test.png", false), 18, 30);
-				imgBoomerang = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/boomerang.png"), "img/boomerang.png", false), 28, 14);
-				imgMagic = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/magic.png"), "img/magic.png", false), 15, 15);
-				imgArmsM = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_magic.png"), "img/arm_magic.png", false), 25, 30);
-				imgFire = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/fire.png"), "img/fire.png", false), 16, 16);
-				imgArmsF = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_fire.png"), "img/arm_fire.png", false), 25, 30);
-				
-				tilesetImg = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/tileset.png"), "img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
-			}
-			else {
-				imgPlayer = new SpriteSheet( new Image("img/player.png", false), CONST.PLAYER_WIDTH,  CONST.PLAYER_HEIGHT);
-				
-				imgArms = new SpriteSheet( new Image("img/arm_MG.png", false), 34, 30);
-				imgBullet = new SpriteSheet( new Image("img/bullet.png", false), 10, 10);
-				imgArmsB = new SpriteSheet( new Image("img/arm_test.png", false), 18, 30);
-				imgBoomerang = new SpriteSheet( new Image("img/boomerang.png", false), 28, 14);
-				imgMagic = new SpriteSheet( new Image("img/magic.png", false), 15, 15);
-				imgArmsM = new SpriteSheet( new Image("img/arm_magic.png", false), 25, 30);
-				imgFire = new SpriteSheet( new Image("img/fire.png", false), 16, 16);
-				imgArmsF = new SpriteSheet( new Image("img/arm_fire.png", false), 25, 30);
-				
-				tilesetImg = new SpriteSheet( new Image("img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
-			}
-			player = new Animation( imgPlayer, 100000);
+			tilesetImg = getSprite( "img/tileset.png", CONST.TILE_WIDTH, CONST.TILE_HEIGHT, false);
+			
+			player = new Animation( getSprite( "img/player.png", CONST.PLAYER_WIDTH, CONST.PLAYER_HEIGHT, false), 1);
 			player.stop();
-			arms = new Animation( imgArms, 100000000);
+			
+			arms = new Animation( getSprite( "img/arm_MG.png", 34, 30, false), 1);
 			arms.stop();
-			bullet = new Animation( imgBullet, 10000000);
+			bullet = new Animation( getSprite( "img/bullet.png", 10, 10, false), 1);
 			bullet.stop();
-			arms_b = new Animation( imgArmsB, 100000000);
+			arms_b = new Animation( getSprite( "img/arm_test.png", 18, 30, false), 1);
 			arms_b.stop();
-			arms_m = new Animation( imgArmsM, 100000000);
+			arms_m = new Animation( getSprite( "img/arm_magic.png", 25, 30, false), 1);
 			arms_m.stop();
-			arms_f = new Animation( imgArmsF, 100000000);
+			arms_f = new Animation( getSprite( "img/arm_fire.png", 25, 30, false), 1);
 			arms_f.stop();
-			boomerang = new Animation( imgBoomerang, 1000000);
-			magic = new Animation( imgMagic, 1000000);
-			fire = new Animation( imgFire, 1000000);
+			boomerang = new Animation( getSprite( "img/boomerang.png", 28, 14, false), 1);
+			magic = new Animation( getSprite( "img/magic.png", 15, 15, false), 1);
+			fire = new Animation( getSprite( "img/fire.png", 16, 16, false), 1);
+			
 			
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public SpriteSheet getSprite( String path, int w, int h, boolean reverse) throws SlickException{
+		if( CONST.APPLET)
+			return new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream(path), path, false), w,  h);
+		else 
+			return new SpriteSheet( new Image( path, reverse), w, h);
 	}
 	
 }

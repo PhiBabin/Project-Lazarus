@@ -7,7 +7,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class FireStick extends Item {
 	
-	private int cooldown = 0;
+	private int cooldown = 1500;
 
 	FireStick( String name){
 		super( name);
