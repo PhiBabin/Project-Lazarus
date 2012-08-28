@@ -22,9 +22,11 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class RessourceManager {
-	public static Animation player = null, arms = null, bullet = null, arms_b = null, arms_m = null, boomerang = null, magic = null;
+	public static Animation player = null, arms = null, arms_b = null, arms_m = null, arms_f = null,
+	bullet = null, boomerang = null, magic = null, fire = null;
 	public static SpriteSheet tilesetImg = null;
-	public SpriteSheet imgPlayer = null, imgArms = null, imgBullet = null, imgArmsB = null, imgArmsM = null, imgBoomerang = null, imgMagic = null;
+	public SpriteSheet imgPlayer = null, imgArms = null, imgArmsB = null, imgArmsM = null, imgArmsF = null,
+	imgBullet = null, imgBoomerang = null, imgMagic = null, imgFire = null;
 	
 	public RessourceManager(){
 		loadImage();
@@ -35,12 +37,14 @@ public class RessourceManager {
 			if( CONST.APPLET){
 				imgPlayer = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/player.png"), "img/player.png", false), CONST.PLAYER_WIDTH,  CONST.PLAYER_HEIGHT);
 				
-				imgArms = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_MG.png"), "img/arm_MG.png", false), 17, 15);
-				imgBullet = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/bullet.png"), "img/bullet.png", false), 5, 5);
-				imgArmsB = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_test.png"), "img/arm_test.png", false), 9, 15);
-				imgBoomerang = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/boomerang.png"), "img/boomerang.png", false), 14, 7);
+				imgArms = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_MG.png"), "img/arm_MG.png", false), 34, 30);
+				imgBullet = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/bullet.png"), "img/bullet.png", false), 10, 10);
+				imgArmsB = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_test.png"), "img/arm_test.png", false), 18, 30);
+				imgBoomerang = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/boomerang.png"), "img/boomerang.png", false), 28, 14);
 				imgMagic = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/magic.png"), "img/magic.png", false), 15, 15);
 				imgArmsM = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_magic.png"), "img/arm_magic.png", false), 25, 30);
+				imgFire = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/fire.png"), "img/fire.png", false), 16, 16);
+				imgArmsF = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/arm_fire.png"), "img/arm_fire.png", false), 25, 30);
 				
 				tilesetImg = new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream("img/tileset.png"), "img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
 			}
@@ -53,6 +57,8 @@ public class RessourceManager {
 				imgBoomerang = new SpriteSheet( new Image("img/boomerang.png", false), 28, 14);
 				imgMagic = new SpriteSheet( new Image("img/magic.png", false), 15, 15);
 				imgArmsM = new SpriteSheet( new Image("img/arm_magic.png", false), 25, 30);
+				imgFire = new SpriteSheet( new Image("img/fire.png", false), 16, 16);
+				imgArmsF = new SpriteSheet( new Image("img/arm_fire.png", false), 25, 30);
 				
 				tilesetImg = new SpriteSheet( new Image("img/tileset.png", false), CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
 			}
@@ -66,10 +72,11 @@ public class RessourceManager {
 			arms_b.stop();
 			arms_m = new Animation( imgArmsM, 100000000);
 			arms_m.stop();
+			arms_f = new Animation( imgArmsF, 100000000);
+			arms_f.stop();
 			boomerang = new Animation( imgBoomerang, 1000000);
-			boomerang.stop();
 			magic = new Animation( imgMagic, 1000000);
-			magic.stop();
+			fire = new Animation( imgFire, 1000000);
 			
 		} catch (SlickException e) {
 			e.printStackTrace();

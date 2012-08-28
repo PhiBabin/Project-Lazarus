@@ -30,7 +30,7 @@ public class Brorang extends Sprite {
 	private Vector2f v = new Vector2f( 0, 0);
 	
 	/** Traveled distance */
-	private int distance = 0;
+	private int time = 0;
 	
 	/** Rotation of the boomerang */
 	private float rotation = 0;
@@ -79,23 +79,22 @@ public class Brorang extends Sprite {
 	    	p.x += v.x * delta;
 	    	p.y += v.y * delta;
 	    	
-	    	distance += Math.sqrt( v.x * delta * v.x * delta + v.y * delta * v.y * delta);
+	    	time += delta;
 	    	
 	    	Rectangle rec = new Rectangle( p.x + 4, p.y + 2, 16, 10);
 	    	
-	    	if( distance > CONST.BOOMERANG_LENTH || playstate.mainLevel.isSolid( rec))
+	    	if( time > CONST.BOOMERANG_TIME_IN || playstate.mainLevel.isSolid( rec))
 	    		comeback = true;
     	}
     	else{
         	rotation -= CONST.BOOMERANG_ROTATION_VELOCITY_OUT * delta;
         	Vector2f pPlayer = playstate.getPlayer().getPosition();
     		Vector2f bG = new Vector2f(  p.x - pPlayer.x - CONST.PLAYER_WIDTH / 2, p.y - pPlayer.y);
-			double h = bG.length();
 			
 			Vector2f bP = new Vector2f( pPlayer.x + CONST.PLAYER_WIDTH / 2 , pPlayer.y);
 			
-	    	p.x -= ( bG.x / h) * CONST.BOOMERANG_VELOCITY_OUT * delta;
-	    	p.y -= ( bG.y / h) * CONST.BOOMERANG_VELOCITY_OUT * delta;
+	    	p.x -= ( bG.x / bG.length()) * CONST.BOOMERANG_VELOCITY_OUT * delta;
+	    	p.y -= ( bG.y / bG.length()) * CONST.BOOMERANG_VELOCITY_OUT * delta;
     	}
     }
 

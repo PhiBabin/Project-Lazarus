@@ -12,7 +12,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 package lazarus;
 
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
@@ -42,7 +41,7 @@ public class Stick extends Item {
     	
     	cooldown += delta;
     	
-		if( input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON) && cooldown >= 100){
+		if( input.isMouseButtonDown( Input.MOUSE_LEFT_BUTTON) && cooldown >= 500){
 			Vector2f bG = new Vector2f(  pCursor.x - pPlayer.x - CONST.PLAYER_WIDTH / 2, pCursor.y - pPlayer.y);
 			
 			Vector2f bP = new Vector2f( 

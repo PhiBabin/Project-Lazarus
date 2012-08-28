@@ -29,10 +29,10 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Bullet extends Sprite {
 	
 	/** Velocity of the Bullet */
-	private Vector2f v = new Vector2f( 0, 0);
+	protected Vector2f v = new Vector2f( 0, 0);
 	
 	/** TimeLaspe **/
-	private int time = 0;
+	protected int time = 0;
 
 	public Bullet( Animation pSprite, Vector2f v) {
 		super( pSprite);

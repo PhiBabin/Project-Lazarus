@@ -77,6 +77,7 @@ public class PlayState extends BasicGameState {
     	 player.itSdangerousToGoAloneTakeThis( new MachineGun( "Sasha"), 0);
     	 player.itSdangerousToGoAloneTakeThis( new Boomerang( "Bro-omerang"), 1);
     	 player.itSdangerousToGoAloneTakeThis( new Stick( "ExplainThat!"), 2);
+    	 player.itSdangerousToGoAloneTakeThis( new FireStick( "IJustWantToKillStuffWithFire"), 3);
     	 player.switchWeapon( 2);
     	 
     	 entityList = new ArrayList<Sprite>();
@@ -149,12 +150,17 @@ public class PlayState extends BasicGameState {
     		entity.update( gc, sb, delta);
     	}
     	
-    	if( input.isKeyDown( Input.KEY_1))
+    	if( input.isKeyPressed( Input.KEY_Q))
+    		player.switchToLastEquipped();
+    	
+    	if( input.isKeyPressed( Input.KEY_1))
     		player.switchWeapon( 0);
-    	if( input.isKeyDown( Input.KEY_2))
+    	if( input.isKeyPressed( Input.KEY_2))
     		player.switchWeapon( 1);
-    	if( input.isKeyDown( Input.KEY_3))
+    	if( input.isKeyPressed( Input.KEY_3))
     		player.switchWeapon( 2);
+    	if( input.isKeyPressed( Input.KEY_4))
+    		player.switchWeapon( 3);
     	
     }
     

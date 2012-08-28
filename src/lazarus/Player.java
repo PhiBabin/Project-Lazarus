@@ -50,10 +50,13 @@ public class Player extends Sprite {
 	private int armour = 0;
 	
 	/** Inventory of the player */
-	private Item[] inventory = new Item[3];
+	private Item[] inventory = new Item[4];
 	
 	/** Equipped item */
 	private int equiped = 0;
+	
+	/** Last equipped item */
+	private int lastEquiped = 0;
 	
 	private int nbrSouls = 0;
 	
@@ -207,7 +210,7 @@ public class Player extends Sprite {
     	doWorldCollision();
     }
 
-	public void render(GameContainer gc, StateBasedGame sb, Graphics gr){
+	public void render( GameContainer gc, StateBasedGame sb, Graphics gr){
     	Input input = gc.getInput();
     	Vector2f pCursor = new Vector2f( input.getMouseX(), input.getMouseY());
     	gr.drawAnimation( aniSprite, p.x - playstate.getCam().x, p.y - playstate.getCam().y);
@@ -216,9 +219,15 @@ public class Player extends Sprite {
     		inventory[equiped].render( gc, sb, gr);
     }
 
-	public void switchWeapon(int equiped){
-		inventory[this.equiped].switchWeapon();
-		this.equiped = equiped;
+	public void switchWeapon( int equipedThis){
+		if( this.equiped != equipedThis){
+			inventory[this.equiped].switchWeapon();
+			lastEquiped = this.equiped;
+			this.equiped = equipedThis;
+		}
+	}
+	public void switchToLastEquipped(){
+		 switchWeapon( lastEquiped);
 	}
 	
 	public void itSdangerousToGoAloneTakeThis( Item item, int slot){

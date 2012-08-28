@@ -2,27 +2,19 @@ package lazarus;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Magic extends Bullet {
-	
-	/** Velocity of the Magic Ball */
-	private Vector2f v = new Vector2f( 0, 0);
 	
 	/** Origin of the Magic Ball */
 	private Vector2f o = new Vector2f( 0, 0);
 	
 	/** deltaS of the Magic Ball */
 	private Vector2f m = new Vector2f( 0, 0);
-	
-	/** TimeLaspe **/
-	private int time = 0;
 
 	public Magic( Animation pSprite, Vector2f v) {
 		super( pSprite, v);
-		this.v = v;
 	}
 	
 	/**
@@ -61,10 +53,7 @@ public class Magic extends Bullet {
     	p.x = (float) ( o.x + Math.cos( (m.getTheta() + v.getTheta()) * Math.PI/180) * m.length());
     	p.y = (float) ( o.y + Math.sin( (m.getTheta() + v.getTheta()) * Math.PI/180) * m.length());
     	
-
-    	Rectangle rec = new Rectangle( p.x, p.y, aniSprite.getWidth(), aniSprite.getHeight());
-    	
-    	if( playstate.mainLevel.isSolid( rec) || time > 3000)
+    	if( time > 3000)
     		delete = true;
     }
 

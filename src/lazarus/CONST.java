@@ -29,14 +29,15 @@ public class CONST {
 	public static final int PLAYER_HEIGHT = 30;
 	
 	public static final float BULLET_VELOCITY = 0.8f;
-	public static final double BULLET_MASS = 5;
 	public static final float BOOMERANG_VELOCITY_IN = 0.4f;
 	public static final float BOOMERANG_VELOCITY_OUT = 0.5f;
-	public static final int BOOMERANG_LENTH = 320;
+	public static final int BOOMERANG_TIME_IN = 1000;
 	public static final float BOOMERANG_ROTATION_VELOCITY_IN = 1.2f;
 	public static final float BOOMERANG_ROTATION_VELOCITY_OUT = 1.61f;
 	public static final float MAGIC_VELOCITY = 0.4f;
 	public static final int MAGIC_MAX_AMPLITUDE = 80;
+	public static final double FIREBALL_MASS = 7;
+	public static final float FIREBALL_VELOCITY = 0.4f;
 	
 	
 	/** Map parameter */
