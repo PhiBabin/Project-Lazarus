@@ -63,14 +63,6 @@ public class Player extends Sprite {
 	
 	/**
 	 * Constructor of the Player
-	 */
-	public Player() {
-		super( RessourceManager.player);
-		this.arms = RessourceManager.arms;
-	}
-	
-	/**
-	 * Constructor of the Player
 	 * @param nX Player X default position
 	 * @param nY Player Y default position
 	 */

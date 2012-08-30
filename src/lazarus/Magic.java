@@ -12,10 +12,6 @@ public class Magic extends Bullet {
 	
 	/** deltaS of the Magic Ball */
 	private Vector2f m = new Vector2f( 0, 0);
-
-	public Magic( Animation pSprite, Vector2f v) {
-		super( pSprite, v);
-	}
 	
 	/**
 	 * Constructor of the Player

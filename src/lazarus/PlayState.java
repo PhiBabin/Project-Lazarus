@@ -44,6 +44,8 @@ public class PlayState extends BasicGameState {
 	
 	private ArrayList<Sprite> entityList = null; 
 	
+	private ArrayList<Raven> mobsList = null; 
+	
 	private int lastBullet = 0;
 	
 	private Vector2f pCursor = new Vector2f( 0, 0);
@@ -69,22 +71,25 @@ public class PlayState extends BasicGameState {
 
     public void init( GameContainer gc, StateBasedGame sbg) throws SlickException {
     	resManag = new RessourceManager();
-    	 mainLevel = new Level();
-    	 mainLevel.create( "Hamlet, Act 3, Scene 1", "To be, or not to be, that is the question: Whether tis Nobler in the mind to suffer The Slings and Arrows of outrageous Fortune, Or to take Arms against a Sea of troubles,");
+    	mainLevel = new Level();
+    	mainLevel.create( "Hamlet, Act 3, Scene 1", "To be, or not to be, that is the question: Whether tis Nobler in the mind to suffer The Slings and Arrows of outrageous Fortune, Or to take Arms against a Sea of troubles,");
     	 
-    	 player = new Player( new Vector2f( 400, 100));
+    	player = new Player( new Vector2f( 400, 200));
     	 
-    	 player.itSdangerousToGoAloneTakeThis( new MachineGun( "Sasha"), 0);
-    	 player.itSdangerousToGoAloneTakeThis( new Boomerang( "Bro-omerang"), 1);
-    	 player.itSdangerousToGoAloneTakeThis( new Stick( "ExplainThat!"), 2);
-    	 player.itSdangerousToGoAloneTakeThis( new FireStick( "IJustWantToKillStuffWithFire"), 3);
-    	 player.switchWeapon( 2);
+    	player.itSdangerousToGoAloneTakeThis( new MachineGun( "Sasha"), 0);
+    	player.itSdangerousToGoAloneTakeThis( new Boomerang( "Bro-omerang"), 1);
+    	player.itSdangerousToGoAloneTakeThis( new Stick( "ExplainThat!"), 2);
+    	player.itSdangerousToGoAloneTakeThis( new FireStick( "IJustWantToKillStuffWithFire"), 3);
+    	player.switchWeapon( 2);
     	 
-    	 entityList = new ArrayList<Sprite>();
+    	entityList = new ArrayList<Sprite>();
+    	mobsList = new ArrayList<Raven>();
+    	
+    	mobsList.add( new Raven( RessourceManager.raven, new Vector2f( 400, 200)));
     	 
-    	 Item.playstate = this;
-    	 Level.playstate = this;
-    	 Sprite.playstate = this;
+    	Item.playstate = this;
+    	Level.playstate = this;
+    	Sprite.playstate = this;
     }
  
     public void render( GameContainer gc, StateBasedGame sb, Graphics gr) throws SlickException {
@@ -92,14 +97,16 @@ public class PlayState extends BasicGameState {
     	
     	
     	mainLevel.render( gc, sb, gr);
-		
-    	for( int i = 0; i < entityList.size();i++){
-    		entityList.get( i).render( gc, sb, gr);
-    		if( entityList.get( i).isDelete())
-    			entityList.remove(i);
-    	}
     	
 		player.render( gc, sb, gr);
+		
+    	for( Sprite entity : entityList){
+    		entity.render( gc, sb, gr);
+    	}
+		
+    	for( Raven mobs : mobsList){
+    		mobs.render( gc, sb, gr);
+    	}
 		
 		gr.setLineWidth( 3.f);
 		gr.setColor( Color.orange);
@@ -114,6 +121,7 @@ public class PlayState extends BasicGameState {
 		gr.drawString( "JUMP - " + player.isJumpLock(), 5.f, 105.f);
 		gr.drawString( "Solid - " + mainLevel.isSolid( pCursor), 5.f, 120.f);
 		gr.drawString( "Bullet - " + entityList.size(), 5.f, 135.f);
+		gr.drawString( "Mobs - " + mobsList.size(), 5.f, 150.f);
 	
 		//gr.drawString( "Angle new - " + pCursor.sub( player.getPosition()).getTheta(), 5.f, 135.f);
 		//gr.drawString( "Angle - " + Math.atan( ( pCursor.y - player.getY()) / ( pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2)) * 180 / Math.PI, 5.f, 150.f);
@@ -146,8 +154,16 @@ public class PlayState extends BasicGameState {
     	
     	player.update(gc, sb, delta);
     	
-    	for( Sprite entity : entityList){
-    		entity.update( gc, sb, delta);
+    	for( int i = 0; i < entityList.size();i++){
+    		entityList.get( i).update( gc, sb, delta);
+    		if( entityList.get( i).isDelete())
+    			entityList.remove(i);
+    	}
+    	
+    	for( int i = 0; i < mobsList.size();i++){
+    		mobsList.get( i).update( gc, sb, delta);
+    		if( mobsList.get( i).isDelete())
+    			mobsList.remove(i);
     	}
     	
     	if( input.isKeyPressed( Input.KEY_Q))
@@ -161,7 +177,11 @@ public class PlayState extends BasicGameState {
     		player.switchWeapon( 2);
     	if( input.isKeyPressed( Input.KEY_4))
     		player.switchWeapon( 3);
-    	
+
+    	if( input.isKeyPressed( Input.KEY_R))
+        	mobsList.add( new Raven( RessourceManager.raven, new Vector2f( (float)(900 * Math.random()), (float)(100 + 100 * Math.random()))));
+    	if( input.isKeyDown( Input.KEY_R) &&  input.isKeyPressed( Input.KEY_LSHIFT))
+        	for(int i =0; i<50; i++)mobsList.add( new Raven( RessourceManager.raven, new Vector2f( (float)(2400 * Math.random()), (float)(100 + 100 * Math.random()))));
     }
     
     public Player getPlayer(){

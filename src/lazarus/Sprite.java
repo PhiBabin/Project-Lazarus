@@ -41,20 +41,6 @@ public class Sprite {
 	protected boolean delete;
 	
 	/**
-	 * Constructor of a simple sprite
-	 * @param pSprite
-	 */
-	public Sprite(Animation pSprite){
-		aniSprite = pSprite;
-		h = aniSprite.getHeight();
-		w = aniSprite.getWidth();
-		
-		p = new Vector2f( 0, 0);
-		
-		delete = false;
-	}
-	
-	/**
 	 * Constructor of a simple Sprite
 	 * @param pSprite , nX, nY
 	 */

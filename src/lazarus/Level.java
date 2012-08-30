@@ -77,6 +77,20 @@ public class Level {
 		}
 		return false;
 	}
+	public Rectangle closestTile( Vector2f b){
+		Rectangle r = null;
+		Vector2f u;
+		float opDistance = -1;
+		for( Tile tile : level){
+			u = new Vector2f( tile.r.getCenterX()-b.x, tile.r.getCenterY()-b.y);
+			if( opDistance > u.length() || opDistance == -1){
+				r = tile.r;
+				opDistance = u.length();
+			}
+				
+		}
+		return r;
+	}
 	
 	public boolean isSolid( Vector2f b){
 		for( Tile drawed : level){

@@ -37,11 +37,6 @@ public class Brorang extends Sprite {
 	
 	/**  Is comeback */
 	private boolean comeback = false;
-
-	public Brorang( Animation pSprite, Vector2f v) {
-		super( pSprite);
-		this.v = v;
-	}
 	
 	/**
 	 * Constructor of the Player

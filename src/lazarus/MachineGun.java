@@ -53,7 +53,7 @@ public class MachineGun extends Item {
 					(float) ( bG.x / bG.length()) * CONST.BULLET_VELOCITY,
 					(float) ( bG.y / bG.length()) * CONST.BULLET_VELOCITY);
 			Vector2f pMuzzle;
-			if( bG.x >0)
+			if( bG.x > 0)
 				pMuzzle = new Vector2f( 15, 7);
 			else
 				pMuzzle = new Vector2f( 15, -7);

@@ -7,10 +7,6 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class FireBall extends Bullet {
-
-	public FireBall( Animation pSprite, Vector2f v) {
-		super( pSprite, v);
-	}
 	
 	/**
 	 * Constructor of the Player

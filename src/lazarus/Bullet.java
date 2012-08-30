@@ -33,11 +33,6 @@ public class Bullet extends Sprite {
 	
 	/** TimeLaspe **/
 	protected int time = 0;
-
-	public Bullet( Animation pSprite, Vector2f v) {
-		super( pSprite);
-		this.v = v;
-	}
 	
 	/**
 	 * Constructor of the Player
