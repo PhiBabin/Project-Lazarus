@@ -116,8 +116,7 @@ public class PlayState extends BasicGameState {
 		gr.setColor( Color.white);
 
 		gr.drawString( "Player "+ player.getHp() + "/100 ( " + player.getX() + ", " + player.getY() + ")", 5.f, 35.f);
-		gr.drawString( "Velocity Y - " + player.getV().y * 100, 5.f, 50.f);
-		gr.drawString( "Triangle - ( " + (pCursor.x - player.getX() - CONST.PLAYER_WIDTH / 2) + "," + (pCursor.y - player.getY()) + ")", 5.f, 90.f);
+		gr.drawString( "Velocity Y - " + Math.round( player.getV().y * 100), 5.f, 50.f);
 		gr.drawString( "JUMP - " + player.isJumpLock(), 5.f, 105.f);
 		gr.drawString( "Solid - " + mainLevel.isSolid( pCursor), 5.f, 120.f);
 		gr.drawString( "Bullet - " + entityList.size(), 5.f, 135.f);
