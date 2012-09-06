@@ -84,8 +84,6 @@ public class PlayState extends BasicGameState {
     	 
     	entityList = new ArrayList<Sprite>();
     	mobsList = new ArrayList<Raven>();
-    	
-    	mobsList.add( new Raven( RessourceManager.raven, new Vector2f( 400, 200)));
     	 
     	Item.playstate = this;
     	Level.playstate = this;
@@ -176,10 +174,16 @@ public class PlayState extends BasicGameState {
     		player.switchWeapon( 2);
     	if( input.isKeyPressed( Input.KEY_4))
     		player.switchWeapon( 3);
+    	
+
+    	if( input.isKeyPressed( Input.KEY_K)){
+    		mobsList.clear();
+    		entityList.clear();
+    	}
 
     	if( input.isKeyPressed( Input.KEY_R))
         	mobsList.add( new Raven( RessourceManager.raven, new Vector2f( (float)(900 * Math.random()), (float)(100 + 100 * Math.random()))));
-    	if( input.isKeyDown( Input.KEY_R) &&  input.isKeyPressed( Input.KEY_LSHIFT))
+    	if( input.isKeyPressed( Input.KEY_E))
         	for(int i =0; i<50; i++)mobsList.add( new Raven( RessourceManager.raven, new Vector2f( (float)(2400 * Math.random()), (float)(100 + 100 * Math.random()))));
     }
     
@@ -200,7 +204,19 @@ public class PlayState extends BasicGameState {
     }
     
     public void addEntity( Sprite entity){
-    	entityList.add( entity);
+    	entityList.add(entity);
+    }
+    
+    public ArrayList<Raven> getMobs(){
+    	return mobsList;
+    }
+    
+    public void addMob( Raven mob){
+    	mobsList.add(mob);
+    }
+    
+    public void addText( String text, Vector2f s, Color color){
+
     }
     
 	@Override

@@ -48,6 +48,17 @@ public class FireBall extends Bullet {
     	
     	if( time > 6000)
     		delete = true;
+    	doCollision();
+    }
+
+    public void doCollision(){
+    	for( Mob mob : playstate.getMobs()){
+    		if( getCollisionRect().intersects( mob.getCollisionRect())){
+    			if( mob.ping()){
+    				mob.dmg( 30);
+    			}
+    		}
+    	}
     }
 
 }

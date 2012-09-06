@@ -91,6 +91,20 @@ public class Brorang extends Sprite {
 	    	p.x -= ( bG.x / bG.length()) * CONST.BOOMERANG_VELOCITY_OUT * delta;
 	    	p.y -= ( bG.y / bG.length()) * CONST.BOOMERANG_VELOCITY_OUT * delta;
     	}
+    	
+    	doCollision();
+    }
+    
+
+    public void doCollision(){
+    	for( Mob mob : playstate.getMobs()){
+    		if( getCollisionRect().intersects( mob.getCollisionRect())){
+    			if( mob.ping()){
+        			comeback = true;
+    				mob.dmg( 15);
+    			}
+    		}
+    	}
     }
 
 	public Vector2f getV() {

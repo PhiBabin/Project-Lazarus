@@ -72,6 +72,19 @@ public class Bullet extends Sprite {
     	
     	if( playstate.mainLevel.isSolid( rec) || time > 3000)
     		delete = true;
-    //	v.y += CONST.BULLET_MASS * CONST.G_FORCE * delta - 0.01 * Math.random();
+    	
+    	doCollision();
+    }
+
+    
+    public void doCollision(){
+    	for( Mob mob : playstate.getMobs()){
+    		if( getCollisionRect().intersects( mob.getCollisionRect())){
+    			if( mob.ping()){
+        			delete = true;
+    				mob.dmg( 30);
+    			}
+    		}
+    	}
     }
 }

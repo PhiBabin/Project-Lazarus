@@ -7,7 +7,7 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class Raven extends Sprite {
+public class Raven extends Mob {
 	private enum State  { SPAWN, LANDING, LAND, ANNOY, WATCH, ATTACK};
 	
 	private State currentS;
@@ -19,13 +19,11 @@ public class Raven extends Sprite {
 	private float angle;
 	
 	private int watchTime = 0;
-	
-	/** Velocity of the Bullet */
-	protected Vector2f v = new Vector2f( 0, 0);
 
 	public Raven(Animation pSprite, Vector2f p) {
 		super( pSprite, p);
 		currentS = State.SPAWN;
+		hp = 30;
 	}
 
 	/**
@@ -64,6 +62,11 @@ public class Raven extends Sprite {
     		break;
     	}
     	
+    	delete = isDead();
+    }
+    
+    public boolean ping(){
+    	return true;
     }
     
     public void spawn( int delta){

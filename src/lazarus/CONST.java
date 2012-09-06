@@ -27,13 +27,14 @@ public class CONST {
 	public static final double PLAYER_MASS = 20;
 	public static final int PLAYER_WIDTH = 18;
 	public static final int PLAYER_HEIGHT = 30;
-	
+
 	public static final float RAVEN_VELOCITY = 0.3f;
+	public static final int RAVEN_AD = 20;
 	public static final float RAVEN_WATCH_VELOCITY = 0.1f;
 	public static final float RAVEN_ANGULER_VELOCITY = 0.0005f;
-	public static final int RAVEN_RANGE = 180;
+	public static final int RAVEN_RANGE = 200;
 	public static final int RAVEN_MIN_DISTANCE = 100;
-	public static final int RAVEN_MAX_DISTANCE = 180;
+	public static final int RAVEN_MAX_DISTANCE = 200;
 	
 	public static final float BULLET_VELOCITY = 0.8f;
 	public static final float BOOMERANG_VELOCITY_IN = 0.4f;
