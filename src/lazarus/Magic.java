@@ -13,17 +13,20 @@ public class Magic extends Bullet {
 	/** deltaS of the Magic Ball */
 	private Vector2f m = new Vector2f( 0, 0);
 	
+	private boolean sind;
+	
 	/**
 	 * Constructor of the Player
 	 * @param pSprite Animation
 	 * @param nX Bullet X default position
 	 * @param nY Bullet Y default position
 	 */
-	public Magic( Animation pSprite, Vector2f p, Vector2f v) {
+	public Magic( Animation pSprite, Vector2f p, Vector2f v, boolean sind) {
 		super( pSprite, p, v);
 		this.v = v;
 		this.o.x = p.x;
 		this.o.y = p.y;
+		this.sind = sind;
 	}
 
 	/**
@@ -41,10 +44,19 @@ public class Magic extends Bullet {
     		force = (float)time/500.f;
     		
     	m.x += v.length() * delta;
-    	if( v.x >= 0)
-    		m.y = (float) ( Math.cos( time/100.f + Math.PI/2) * CONST.MAGIC_MAX_AMPLITUDE) * force;
-    	else
-    		m.y = (float) ( Math.cos( time/100.f - Math.PI/2) * CONST.MAGIC_MAX_AMPLITUDE) * force;
+    	
+    	if( sind){
+        	if( v.x >= 0)
+        		m.y = (float) ( Math.cos( time/100.f + Math.PI * 3/2) * CONST.MAGIC_MAX_AMPLITUDE) * force;
+        	else
+        		m.y = (float) ( Math.cos( time/100.f - Math.PI * 3/2) * CONST.MAGIC_MAX_AMPLITUDE) * force;
+    	}
+    	else{
+        	if( v.x >= 0)
+        		m.y = (float) ( Math.cos( time/100.f + Math.PI/2) * CONST.MAGIC_MAX_AMPLITUDE) * force;
+        	else
+        		m.y = (float) ( Math.cos( time/100.f - Math.PI/2) * CONST.MAGIC_MAX_AMPLITUDE) * force;
+    	}
     	
     	p.x = (float) ( o.x + Math.cos( (m.getTheta() + v.getTheta()) * Math.PI/180) * m.length());
     	p.y = (float) ( o.y + Math.sin( (m.getTheta() + v.getTheta()) * Math.PI/180) * m.length());
@@ -59,7 +71,7 @@ public class Magic extends Bullet {
     	for( Mob mob : playstate.getMobs()){
     		if( getCollisionRect().intersects( mob.getCollisionRect())){
     			if( mob.ping()){
-    				mob.dmg( 30);
+    				mob.dmg( 10);
     			}
     		}
     	}

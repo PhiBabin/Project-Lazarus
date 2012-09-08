@@ -45,6 +45,9 @@ public class Level {
 	
 	private Random rand;
 	
+	private final String alpha = "abcdefghijklmnopqrstuvwxyz,':;-.!?";
+	private final String ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ,':;-.!?";
+	
 	public Level() throws SlickException{
 		tilesetImg = RessourceManager.tilesetImg;
 		
@@ -62,10 +65,20 @@ public class Level {
 		for( int i = 0; i < txt.length(); i++){
 			if( txt.charAt( i) == ' ')
 				yMod += rand.nextInt( 5) - 2;
-			level.add( new Tile( new Vector2f( i * CONST.TILE_WIDTH, yMod * CONST.TILE_HEIGHT), (short) 2));
+			else
+				level.add( new Tile( new Vector2f( i * CONST.TILE_WIDTH, yMod * CONST.TILE_HEIGHT), getCharTie( txt.charAt( i))));
 		}
 	}
 
+	public short getCharTie( char c){
+		if( alpha.indexOf( c) != -1)
+			return (short)(alpha.indexOf( c) + 3);
+		if( ALPHA.indexOf( c) != -1)
+			return (short)(ALPHA.indexOf( c) + 3);
+		else 
+			return 2;
+	}
+	
 	public boolean isSolid( float x, float y){
 		return isSolid( new Vector2f( x, y));
 	}

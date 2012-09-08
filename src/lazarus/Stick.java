@@ -56,7 +56,9 @@ public class Stick extends Item {
 		    	(float) ( bP.x + Math.cos( (pStick.getTheta() + bG.getTheta()) * Math.PI/180) * pStick.length()) - RessourceManager.magic.getWidth()/2,
 		    	(float) ( bP.y + Math.sin( (pStick.getTheta() + bG.getTheta()) * Math.PI/180) * pStick.length()) - RessourceManager.magic.getHeight()/2);
 			
-			playstate.addEntity( new Magic( RessourceManager.magic, pBall, bV));
+			//playstate.addEntity( new Magic( RessourceManager.fire, pBall.copy(), bV.copy(), true));
+			playstate.addEntity( new Magic( RessourceManager.magic, pBall.copy(), bV.copy(), true));
+			playstate.addEntity( new Magic( RessourceManager.magic, pBall, bV, false));
 			
 			cooldown = 0;
 		}

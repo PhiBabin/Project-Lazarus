@@ -1,11 +1,17 @@
 package lazarus;
 
+import java.util.Calendar;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.geom.Vector2f;
 
 public abstract class Mob extends Sprite {
 	
-	protected int hp; 
+	/** Healt points */
+	protected int hp = 0; 
+	
+	/** Invulnerability time */
+	protected long invul = 0; 
 	
 	/** Velocity of the mob */
 	protected Vector2f v = new Vector2f( 0, 0);
@@ -25,8 +31,10 @@ public abstract class Mob extends Sprite {
     }
     
     public void dmg( int ad){
-    	hp -= ad;
-    	System.out.println("callisse!" + ad);
+    	if( Calendar.getInstance().getTime().getTime() - invul  >= 3000){
+    		hp -= ad;
+    		invul = Calendar.getInstance().getTime().getTime();
+    	}
     }
     
     public void heal( int potion){

@@ -50,6 +50,6 @@ public class CONST {
 	
 	/** Map parameter */
 	public static final int TILE_WIDTH = 20;
-	public static final int TILE_HEIGHT = 18;
+	public static final int TILE_HEIGHT = 20;
 }
 
