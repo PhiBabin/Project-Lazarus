@@ -57,7 +57,7 @@ public class PlayState extends BasicGameState {
 	
 	private Rectangle moveableRect;
 	
-	int stateID=-1;
+	int stateID = -1;
 	
 	/**
 	 * Construct our PlayState
@@ -71,6 +71,8 @@ public class PlayState extends BasicGameState {
 	
 
     public void init( GameContainer gc, StateBasedGame sbg) throws SlickException {
+    	System.out.println( "Applet: " + CONST.APPLET );
+    	
     	resManag = new RessourceManager();
     	mainLevel = new Level();
     	mainLevel.create( "Hamlet, Act 3, Scene 1", "To be, or not to be, that is the question: Whether tis Nobler in the mind to suffer The Slings and Arrows of outrageous Fortune, Or to take Arms against a Sea of troubles, And by opposing end them: to die, to sleep No more; and by a sleep, to say we end The heart-ache, and the thousand Natural shocks That Flesh is heir to? 'Tis a consummation Devoutly to be wished. To die to sleep, To sleep, perchance to Dream; Ay, there's the rub, For in that sleep of death, what dreams may come, When we have shuffled off this mortal coil, Must give us pause. There's the respect That makes Calamity of so long life: For who would bear the Whips and Scorns of time, The Oppressor's wrong, the proud man's Contumely, The pangs of despised Love, the Law's delay, The insolence of Office, and the Spurns That patient merit of the unworthy takes, When he himself might his Quietus make With a bare Bodkin? Who would Fardels bear, To grunt and sweat under a weary life, But that the dread of something after death, The undiscovered Country, from whose bourn No Traveller returns, Puzzles the will, And makes us rather bear those ills we have, Than fly to others that we know not of. Thus Conscience does make Cowards of us all,");
@@ -89,6 +91,7 @@ public class PlayState extends BasicGameState {
     	Item.playstate = this;
     	Level.playstate = this;
     	Sprite.playstate = this;
+    	
     }
  
     public void render( GameContainer gc, StateBasedGame sb, Graphics gr) throws SlickException {
@@ -128,6 +131,9 @@ public class PlayState extends BasicGameState {
     }
  
     public void update( GameContainer gc, StateBasedGame sb, int delta) throws SlickException {
+    	
+    	
+    	
     	Input input = gc.getInput();
 
     	pCursor.x = input.getMouseX() + cam.x;

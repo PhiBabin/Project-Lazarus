@@ -133,13 +133,20 @@ public class Level {
 	 * @param gr Graphics
 	 */
 	public void render( GameContainer gc, StateBasedGame sb, Graphics gr){
+		tilesetImg.startUse();
+		Vector2f cam = playstate.getCam();
 		for( Tile drawed : level){
-    		if( drawed.r.getX() >= 0 && drawed.r.getY() >= 0 ){
+    		if( drawed.r.getMaxX() >= cam.x &&
+    				drawed.r.getMaxY() >= cam.y &&
+    				drawed.r.getX() <= cam.x + CONST.SCREEN_WIDTH &&
+    				drawed.r.getY() <= cam.y + CONST.SCREEN_HEIGHT){
     			//&& drawed.p.y < getHeightInTiles() && drawed.p.x < getWidthInTiles()){
-        		gr.drawImage( tiles.get( drawed.tileId - 1), drawed.r.getX() - playstate.getCam().x, drawed.r.getY() - playstate.getCam().y);
+        		//gr.drawImage( tiles.get( drawed.tileId - 1), drawed.r.getX() - playstate.getCam().x, drawed.r.getY() - playstate.getCam().y);
+    			tiles.get( drawed.tileId - 1).drawEmbedded( drawed.r.getX() - cam.x, drawed.r.getY() - cam.y, CONST.TILE_WIDTH, CONST.TILE_HEIGHT);
     		}
 		}
-	
+
+		tilesetImg.endUse();
 	}
 	
 	/**

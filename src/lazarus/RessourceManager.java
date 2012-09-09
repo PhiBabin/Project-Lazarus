@@ -61,6 +61,7 @@ public class RessourceManager {
 	}
 	
 	public SpriteSheet getSprite( String path, int w, int h, boolean reverse) throws SlickException{
+		System.out.println( path +"("+ w +","+ h +") has been load.");
 		if( CONST.APPLET)
 			return new SpriteSheet( new Image( Thread.currentThread().getContextClassLoader().getResourceAsStream(path), path, false), w,  h);
 		else 
